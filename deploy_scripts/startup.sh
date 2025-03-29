@@ -22,10 +22,10 @@ kubectl wait --namespace ingress-nginx \
   --timeout=90s
   
 echo "🌉 Starting Minikube tunnel..."
-nohup minikube tunnel > /local/logs/tunnel.log 2>&1 &
+echo "yourpassword" | sudo -S nohup minikube tunnel > /local/logs/tunnel.log 2>&1 &
 
 echo "🔁 Starting socat port forward from 80 -> 192.168.49.2:80..."
-nohup socat TCP-LISTEN:80,fork TCP:192.168.49.2:80 > /local/logs/socat.log 2>&1 &
+echo "yourpassword" | sudo -S nohup socat TCP-LISTEN:80,fork TCP:192.168.49.2:80 > /local/logs/socat.log 2>&1 &
 
 echo "🚀 Deploying app with Skaffold..."
 cd /local/repository
