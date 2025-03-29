@@ -20,6 +20,9 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Copy custom NGINX config template
 COPY /nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
 
+RUN mkdir -p /var/cache/nginx && \
+    chown -R appuser:appgroup /var/cache/nginx
+    
 # Adjust ownership
 RUN chown -R appuser:appgroup /usr/share/nginx/html /etc/nginx
 
