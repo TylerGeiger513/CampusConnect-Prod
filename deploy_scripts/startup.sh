@@ -22,7 +22,11 @@ kubectl wait --namespace ingress-nginx \
   --timeout=90s
 
 echo "🚀 Deploying app with Skaffold..."
-skaffold run -p prod -f /local/repository/skaffold.yaml
+cd /local/repository
+
+echo "current directory: $(pwd)" # debug
+echo "current user: $(whoami)"  # debug
+skaffold run -p prod
 
 echo "🧰 Installing socat"
 sudo apt-get install -y socat
