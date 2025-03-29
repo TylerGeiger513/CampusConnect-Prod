@@ -28,9 +28,6 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 skaffold run -p prod
 
-echo "🧰 Installing socat"
-sudo apt-get install -y socat
-
 echo "🌉 Starting Minikube tunnel..."
 sudo nohup minikube tunnel > tunnel.log 2>&1 &
 
