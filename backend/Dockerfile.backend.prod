@@ -1,15 +1,22 @@
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Copy only package files first to leverage caching
+# Copy package files first to leverage caching
 COPY package*.json ./
 RUN npm install --production
 
-# Copy the rest of your backend source code
+# Copy the rest of your app source
 COPY . .
 
-# Install the Nest CLI globally so that "nest" is available
+# Install Nest CLI globally (optional if not used at runtime)
 RUN npm install -g @nestjs/cli
+
+# Create a non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Set permissions and switch user
+RUN chown -R appuser:appgroup /app
+USER appuser
 
 ENV NODE_ENV=production
 EXPOSE ${BACKEND_PORT}

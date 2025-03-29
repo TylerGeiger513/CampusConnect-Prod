@@ -16,6 +16,7 @@ request.addTour(tour)
 
 # Define node
 node = request.RawPC("deploy-node")
+node.hardware_type = "c6525-100g"
 node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
 node.routable_control_ip = True
 
@@ -23,7 +24,14 @@ bs = node.Blockstore("bs", "/mydata")
 bs.size = "20GB"
 
 # Run install + startup
-node.addService(pg.Execute(shell="sh", command="sudo bash /local/repository/deploy_scripts/install_deps.sh && sudo bash /local/repository/deploy_scripts/startup.sh"))
+node.addService(pg.Execute(
+    shell="sh",
+    command=(
+        "sudo bash /local/repository/deploy_scripts/install_deps.sh "
+        "&& sudo -u ccuser -i bash /local/repository/deploy_scripts/startup.sh"
+    )
+))
+
 
 # Print request
 pc.printRequestRSpec(request)

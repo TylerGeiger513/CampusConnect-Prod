@@ -21,6 +21,7 @@ kubectl wait --namespace ingress-nginx \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
 
+echo "🚀 Deploying app with Skaffold..."
 skaffold run -p prod
 
 echo "🧰 Installing socat"
