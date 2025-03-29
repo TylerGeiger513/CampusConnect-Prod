@@ -19,6 +19,6 @@ RUN chown -R appuser:appgroup /app
 USER appuser
 
 ENV NODE_ENV=production
-EXPOSE ${BACKEND_PORT}
+EXPOSE ${FRONTEND_PORT}
 
 CMD ["npm", "run", "start"]
