@@ -6,15 +6,15 @@ exec > >(tee -a "$LOG") 2>&1
 
 USERNAME=ccuser
 
+echo "📦 Installing Docker..."
+apt-get update
+apt-get install -y docker.io socat curl
+
 echo "👤 Creating non-root user: $USERNAME"
 if ! id "$USERNAME" &>/dev/null; then
   adduser --disabled-password --gecos "" $USERNAME
   usermod -aG docker $USERNAME
 fi
-
-echo "📦 Installing Docker..."
-apt-get update
-apt-get install -y docker.io socat curl
 
 echo "📦 Installing Minikube..."
 curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
