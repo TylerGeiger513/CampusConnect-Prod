@@ -14,10 +14,13 @@ echo "👤 Creating non-root user: $USERNAME"
 if ! id "$USERNAME" &>/dev/null; then
   adduser --disabled-password --gecos "" $USERNAME
   usermod -aG docker $USERNAME
-  usermod -aG sudo $USERNAME 
+  usermod -aG sudo $USERNAME
+  echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME
+  chmod 0440 /etc/sudoers.d/$USERNAME
 fi
 
-echo "$USERNAME:yourpassword" | sudo chpasswd
+echo "$USERNAME:password" | chpasswd
+
 
 echo "📦 Installing Minikube..."
 curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
