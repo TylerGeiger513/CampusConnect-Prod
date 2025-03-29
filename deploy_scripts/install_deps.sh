@@ -14,6 +14,7 @@ echo "👤 Creating non-root user: $USERNAME"
 if ! id "$USERNAME" &>/dev/null; then
   adduser --disabled-password --gecos "" $USERNAME
   usermod -aG docker $USERNAME
+  usermod -aG sudo $USERNAME 
 fi
 
 echo "$USERNAME:yourpassword" | sudo chpasswd
