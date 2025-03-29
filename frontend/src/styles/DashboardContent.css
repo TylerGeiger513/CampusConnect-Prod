@@ -1,0 +1,5 @@
+.dashboard-content {
+  background-color: var(--surface-a40);
+  height: 100%;
+  box-sizing: border-box;
+}

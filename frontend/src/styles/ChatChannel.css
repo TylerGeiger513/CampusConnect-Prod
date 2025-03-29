@@ -1,0 +1,84 @@
+/* ChatChannel container fills the dashboard space without a new background */
+.chat-channel {
+    display: grid;
+    grid-template-rows: 50px 1fr 80px; /* Header (50px), messages fill remaining space, and form auto height */
+    height: 100%;
+    min-height: 100%;
+    max-height: calc(100vh - 50px);
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Separate header for the chat */
+.chat-header {
+    padding: 0 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-text-alt);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    display: grid;
+    align-items: center;
+    z-index: 1;
+}
+
+/* Messages area fills available space */
+.messages {
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: var(--primary-a30);
+    border-radius: 10px;
+    box-shadow: 0 0 1px var(--primary-a0);
+    height: auto;
+    min-height: 20px;
+    max-height: 50px;
+}
+
+/* Message input form fixed at the bottom of the chat channel */
+.message-form {
+    display: flex;
+    gap: 5px;
+    padding: 15px;
+    height: 35px;
+}
+
+.message-form input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--primary-a30);
+    border-radius: 4px;
+}
+
+.message-form input:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--primary-a0);
+}
+
+.message-form button {
+    padding: 10px 15px;
+    background-color: var(--primary-a30);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--primary-a0);
+}

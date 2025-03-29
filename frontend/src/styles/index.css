@@ -1,0 +1,21 @@
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--surface-a10);
+    overflow: hidden;
+    height: 100vh;
+}
+
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+:root.theme-transition {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+  

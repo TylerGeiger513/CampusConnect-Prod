@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: campus-connect-backend
+  labels:
+    app: campus-connect-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: campus-connect-backend
+  template:
+    metadata:
+      labels:
+        app: campus-connect-backend
+    spec:
+      containers:
+      - name: backend
+        image: campus-connect-backend:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+        envFrom:
+        - configMapRef:
+            name: campus-connect-config

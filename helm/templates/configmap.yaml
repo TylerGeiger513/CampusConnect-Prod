@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: campus-connect-config
+  namespace: default
+data:
+  # Original values
+  HOST: "0.0.0.0"
+  DOMAIN: "{{ .Values.domain }}"
+  BACKEND_PORT: "3000"
+  FRONTEND_PORT: "8080"
+  MONGO_HOST: "mongo"
+  MONGO_PORT: "27017"
+  MONGO_DB: "campusconnect_db"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  LOG_LEVEL: "info"
+  NGINX_BACKEND_UPSTREAM: "campus-connect-backend-service:3000"
+  NGINX_FRONTEND_UPSTREAM: "campus-connect-frontend-service:80"
+  
+  NODE_ENV: "production"         
+  API_PREFIX: "api"               
+  PORT: "3000"                   
+  SESSION_LIFETIME: "86400000"   
+  COOKIE_SECURE: "false"         
+  COOKIE_SAME_SITE: "strict"         
+  CORS_ORIGIN: "{{ .Values.domain }}"          
+  NGINX_NODE_PORT: "80"         
+
+  ENCRYPTION_KEY: "super_secret"
+  REDIS_PASSWORD: "super_secret_password"
+  SESSION_SECRET: "super_secret_key"

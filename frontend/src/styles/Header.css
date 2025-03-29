@@ -1,0 +1,60 @@
+/* Header.css */
+.app-header {
+  background-color: var(--surface-a10);
+  padding: 1rem 2rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  position: relative;
+}
+
+.header-inner {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo h1 {
+  color: var(--primary-a10);
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+}
+
+/* Auth buttons styling */
+.auth-buttons .btn {
+  background-color: var(--primary-a10);
+  color: #FFF;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+
+}
+
+.auth-buttons .btn:hover {
+  background-color: var(--primary-a50);
+}
+
+/* User info styling */
+.user-info {
+  text-align: right;
+}
+
+.user-info strong {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--primary-a30);
+}
+
+.user-campus {
+  font-size: 1rem;
+  color: var(--color-text);
+}

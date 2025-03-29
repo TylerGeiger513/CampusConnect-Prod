@@ -1,0 +1,17 @@
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Copy only package files first to leverage caching
+COPY package*.json ./
+RUN npm install --production
+
+# Copy the rest of your backend source code
+COPY . .
+
+# Install the Nest CLI globally so that "nest" is available
+RUN npm install -g @nestjs/cli
+
+ENV NODE_ENV=production
+EXPOSE ${BACKEND_PORT}
+
+CMD ["npm", "run", "start"]

@@ -1,0 +1,12 @@
+# prod values
+
+
+ports: 
+  backend: 3000
+  frontend: 80
+  redis: 6379
+  mongo: 27017
+
+# This is replaced by the hostname of the cluster when deploying to prod.
+# skaffold.yaml - setValues: domain: '{{cmd "hostname" "-f"}}'
+domain: ""  

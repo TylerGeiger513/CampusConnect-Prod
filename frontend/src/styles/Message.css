@@ -1,0 +1,120 @@
+.message-item {
+    display: grid;
+    grid-template-rows: auto auto;
+    margin-top: 12px;
+    gap: 0px 8px;
+  }
+  
+  .message-item.grouped {
+    margin-top: -8px;
+  }
+  
+  /* Sent messages */
+  .message-item.sent {
+    grid-template-columns: 1fr auto;
+    justify-items: right;
+  }
+  .message-item.sent .message-header,
+  .message-item.sent .bubble {
+    grid-column: 1;
+  }
+  .message-item.sent .friend-pfp {
+    grid-column: 2;
+  }
+  
+  /* Received messages */
+  .message-item.received {
+    grid-template-columns: auto 1fr;
+    justify-items: left;
+  }
+  .message-item.received .message-header,
+  .message-item.received .bubble {
+    grid-column: 2;
+  }
+  .message-item.received .friend-pfp {
+    grid-column: 1;
+  }
+  
+  /* Header row */
+  .message-header {
+    grid-row: 1;
+    font-size: 0.6rem;
+    text-align: left;
+  }
+  .message-item.sent .message-header {
+    text-align: right;
+  }
+  
+  /* Hides the header content visually but keeps layout consistent */
+  .message-header.hidden-header {
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Bubble (row 2) */
+  .bubble {
+    grid-row: 2;
+    position: relative;
+    max-width: 300px;
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    word-wrap: break-word;
+    color: var(--color-text);
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+  }
+  
+  .bubble.received {
+    background-color: var(--primary-a50);
+    border-bottom-left-radius: 2px;
+    color: #EEEEEE;
+  }
+  .bubble.sent {
+    background-color: var(--surface-a50);
+    color: var(--color-text);
+    border-bottom-right-radius: 2px;
+  }
+  
+  /* Profile pic always renders but stays invisible when grouped, keeps layout aligned */
+  .msg-friend-pfp {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    align-self: top;
+    margin-top: 10px;
+    font-weight: 600;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    grid-row: 2;
+  }
+
+  .msg-friend-pfp.grouped {
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  .sender-info {
+    font-size: 0.8rem;
+  }
+  .friend-name {
+    font-weight: bold;
+    margin-right: 6px;
+  }
+  .timestamp {
+    color: var(--color-text-alt);
+  }
+  

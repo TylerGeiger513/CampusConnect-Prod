@@ -1,0 +1,49 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: campus-connect
+
+build:
+  artifacts:
+    - image: campus-connect-backend
+      context: backend
+      docker:
+        dockerfile: Dockerfile.backend.prod
+    - image: campus-connect-frontend
+      context: frontend
+      docker:
+        dockerfile: Dockerfile.frontend.prod
+
+deploy:
+  helm:
+    releases:
+      - name: campus-connect
+        chartPath: ./helm
+        valuesFiles:
+          - ./helm/values.prod.yaml
+        setValues:
+          domain: '{{cmd "hostname" "-f"}}'
+        
+
+profiles:
+  - name: dev
+    deploy:
+      helm:
+        releases:
+          - name: campus-connect
+            chartPath: ./helm
+            valuesFiles:
+              - ./helm/values.dev.yaml
+            setValues:
+              domain: "localhost"
+
+  - name: prod
+    deploy:
+      helm:
+        releases:
+          - name: campus-connect
+            chartPath: ./helm
+            valuesFiles:
+              - ./helm/values.prod.yaml
+            setValueTemplates:
+              domain: '{{cmd "hostname" "-f"}}'
