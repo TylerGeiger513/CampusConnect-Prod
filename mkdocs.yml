@@ -1,6 +1,5 @@
 site_name: My Docs
 
-# make the site a dark theme NO BUTTON just dark
 theme:
   name: material
   features:
@@ -23,6 +22,13 @@ theme:
         icon: material/weather-night
         name: Switch to dark mode
 
+
+# make the landing page the index page
+nav:
+  - Home: index.md
+  - Deployment:  
+      - CI/CD: ci_cd.md
+      - Local Deployment: local-deployment.md
 
 
 markdown_extensions:
