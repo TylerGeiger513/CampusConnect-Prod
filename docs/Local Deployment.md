@@ -1,4 +1,4 @@
-
+# Local Deployment 
 ## 1. Requirements
 
 Before starting the deployment, ensure you have the following tools installed and configured:
@@ -26,7 +26,7 @@ Before starting the deployment, ensure you have the following tools installed an
 
 ## 2. Local Deployment 
 
-The scripts `install_deps.sh` and `startup.sh` in `/deploy_scripts` are designed for deployment in a CI/CD pipeline on a linux environment like CloudLab. These can be referenced here.
+The scripts `install_deps.sh` and `startup.sh` in `/deploy_scripts` are designed for deployment in a CI/CD pipeline on a linux environment like CloudLab. These can be referenced [here](Deployment.md).
 
 ### Step 1: Start Minikube
 

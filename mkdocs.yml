@@ -7,9 +7,8 @@ theme:
     - content.code.copy
   icon: 
     admonition: 
-      helm: simple/helm
-      skaffold: simple/skaffold
-      minikube: material/cube
+      info: simple/helm
+      abstract: simple/skaffold
   palette:
     - scheme: slate
       primary: indigo
