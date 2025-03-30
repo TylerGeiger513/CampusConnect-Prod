@@ -1,0 +1,44 @@
+site_name: My Docs
+
+# make the site a dark theme NO BUTTON just dark
+theme:
+  name: material
+  features:
+    - content.code.copy
+  icon: 
+    admonition: 
+      helm: simple/helm
+      skaffold: simple/skaffold
+      minikube: material/cube
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.details
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      use_pygments: true
+      css_class: highlight
+      guess_lang: false
