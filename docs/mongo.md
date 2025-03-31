@@ -79,7 +79,6 @@ This structure ensures that channels remain lightweight and that messages can be
     - Messages are stored in a separate collection 
     - Messages reference both the `channelId` and `senderId`.
     - When a message is edited, the `edited` flag is set to true for transparency.
-    - The `senderName` is denormalized for performance (avoid extra joins in real-time views).
 
 ---
 

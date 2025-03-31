@@ -34,6 +34,9 @@ nav:
       - Databases:
          - MongoDB: mongo.md
          - Redis: redis.md
+      - Authentication: auth.md
+      - Friends: friends.md
+      - Channels: channels.md
 
 
 
