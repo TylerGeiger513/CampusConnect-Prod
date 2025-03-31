@@ -147,7 +147,7 @@ Campus Connect is a full-stack, real-time chat platform built to enhance campus 
 - [x] Skaffold handles builds for frontend/backend separately  
 - [x] GitHub webhook → shell script triggers Skaffold deploy  
 - [x] CloudLab `profiles.py` configuration triggers Minikube pod rollout  
-- [ ] Add secret syncing between dev/prod clusters  
+- [ ] Add secure secret management using github secrets or helm_secrets 
 - [ ] Monitor builds and auto-fail bad deploys  
 
 ---
