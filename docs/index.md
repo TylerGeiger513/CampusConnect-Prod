@@ -79,7 +79,7 @@ Campus Connect is a full-stack, real-time chat platform built to enhance campus 
 - **Real-time**: Socket.IO for live messaging  
 - **Security**: AES-256-CBC encrypted sessions, AuthGuard protection, bcrypt password hashing  
 - **CI/CD**: GitHub webhook → CloudLab Portal API → Skaffold → Helm → Kubernetes (Minikube)  
-- **Secrets Management**: Helm-managed values.yaml for sensitive keys and Docker build args  
+- TODO: **Secrets Management**:: Using Helm or Github Secrets
 
 ---
 
