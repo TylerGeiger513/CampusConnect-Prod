@@ -8,10 +8,21 @@
 
 ## Members (Alphabetical Order)
 
-- Perez Abhuilmen  
-- Alex Cooper  
-- Tyler Geiger  
-- Kadin Matotek  
+- **Perez Abhuilmen**  
+    - :material-linkedin: [LinkedIn](https://www.linkedin.com/in/perez-abhulimen-2a48b7214/)  
+    - :material-github: [GitHub](https://github.com/Goku2988)
+
+- **Alex Cooper**  
+    - :material-linkedin: [LinkedIn](https://www.linkedin.com/in/alexmcooper/)  
+    - :material-github: [GitHub](https://github.com/AlexCooperJr)
+
+- **Tyler Geiger**  
+    - :material-linkedin: [LinkedIn](https://www.linkedin.com/in/tyler-geiger/)  
+    - :material-github: [GitHub](https://github.com/TylerGeiger513)
+
+- **Kadin Matotek**  
+    - :material-linkedin: [LinkedIn](https://www.linkedin.com/in/kadin-matotek/)  
+    - :material-github: [GitHub](https://github.com/kmatotek)
 
 ---
 

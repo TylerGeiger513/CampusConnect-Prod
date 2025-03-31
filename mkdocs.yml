@@ -27,10 +27,10 @@ theme:
 # make the landing page the index page
 nav:
   - Home: index.md
+  - Architecture: architecture.md
   - Deployment:  
       - CI/CD: ci_cd.md
       - Local Deployment: local-deployment.md
-  - Architecture: architecture.md
   - Backend: 
       - Databases:
          - MongoDB: mongo.md
