@@ -26,6 +26,13 @@
 
 ---
 
+## :material-github: Repositories
+
+- Production repository: 
+    [GitHub](https://github.com/TylerGeiger513/CampusConnect-Prod)
+- Testing / Development
+    [GitHub](https://github.com/TylerGeiger513/Kubernetes)
+
 ## Project Demo
 
 ![Dark Mode Landing Page](image-1.png)
