@@ -1,4 +1,5 @@
-site_name: My Docs
+site_name: Campus Connect Docs
+site_url: https://tylergeiger513.github.io/CampusConnect-Prod/
 
 theme:
   name: material
@@ -56,3 +57,5 @@ markdown_extensions:
       use_pygments: true
       css_class: highlight
       guess_lang: false
+  - pymdownx.tasklist:
+      custom_checkbox: true
