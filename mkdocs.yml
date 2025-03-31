@@ -29,6 +29,7 @@ nav:
   - Deployment:  
       - CI/CD: ci_cd.md
       - Local Deployment: local-deployment.md
+  - Architecture: architecture.md
 
 
 markdown_extensions:
