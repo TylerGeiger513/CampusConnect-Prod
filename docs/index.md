@@ -107,8 +107,8 @@ Campus Connect is a full-stack, real-time chat platform built to enhance campus 
 - [x] Create & retrieve DM channel between users  
 - [x] Design message schema (content, sender, timestamp)  
 - [x] WebSocket event on message send  
-- [ ] Load & persist message history  
-- [ ] Input box and infinite scroll UI  
+- [x] Load & persist message history  
+- [x] Input box and infinite scroll UI  
 
 ---
 
