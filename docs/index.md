@@ -1,8 +1,11 @@
 # Campus Connect Documentation
 
 **Course:** CSC 468 – Cloud Computing  
+
 **Institution:** West Chester University  
+
 **Professor:** Dr. Ngo
+
 **Semester:** Spring 2025
 
 ---
