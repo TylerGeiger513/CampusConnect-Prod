@@ -1,7 +1,7 @@
 /* Header.css */
 .app-header {
   background-color: var(--surface-a10);
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
   z-index: 100;
   position: relative;

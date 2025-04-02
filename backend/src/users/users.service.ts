@@ -1,15 +1,19 @@
-import { Injectable, ConflictException, UnauthorizedException, Logger } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException, Logger, BadRequestException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { IUser } from './users.schema';
 import * as bcrypt from 'bcryptjs';
 import { SignupDto } from '../auth/dtos/signup.dto';
 import { LoginDto } from '../auth/dtos/login.dto';
+import { CampusService } from '../campus/campus.service';
 
 @Injectable()
 export class UsersService {
     private readonly logger = new Logger(UsersService.name);
 
-    constructor(private readonly usersRepository: UsersRepository) { }
+    constructor(
+        private readonly usersRepository: UsersRepository,
+        private readonly campusService: CampusService
+    ) { }
 
     async registerUser(dto: SignupDto): Promise<IUser> {
         const { email, username, password, campus } = dto;
@@ -18,6 +22,11 @@ export class UsersService {
         }
         if (await this.usersRepository.findByIdentifier({ username })) {
             throw new ConflictException('Username already taken.');
+        }
+        // Validate campus existence (assume campus is passed as an ObjectId string).
+        const campusExists = await this.campusService.findCampusById(campus);
+        if (!campusExists) {
+            throw new BadRequestException('Invalid campus.');
         }
         const hashedPassword = await this.hashPassword(password);
         return this.usersRepository.createUser(email, username, hashedPassword, campus);

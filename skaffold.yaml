@@ -21,12 +21,29 @@ deploy:
         chartPath: ./helm
         valuesFiles:
           - ./helm/values.prod.yaml
-        setValues:
+        setValueTemplates:
           domain: '{{cmd "hostname" "-f"}}'
-        
 
 profiles:
   - name: dev
+    build:
+      artifacts:
+        - image: campus-connect-backend
+          context: backend
+          docker:
+            dockerfile: backend/Dockerfile.backend.dev
+          sync:
+            manual:
+              - src: "src/**/*.ts"
+                dest: "."
+        - image: campus-connect-frontend
+          context: frontend
+          docker:
+            dockerfile: frontend/Dockerfile.frontend.dev
+          sync:
+            manual:
+              - src: "src/**/*"
+                dest: "src/"
     deploy:
       helm:
         releases:
@@ -34,10 +51,20 @@ profiles:
             chartPath: ./helm
             valuesFiles:
               - ./helm/values.dev.yaml
-            setValues:
+            setValueTemplates:
               domain: "localhost"
 
   - name: prod
+    build:
+      artifacts:
+        - image: campus-connect-backend
+          docker:
+            dockerfile: Dockerfile.backend.prod
+          sync: {} 
+        - image: campus-connect-frontend
+          docker:
+            dockerfile: Dockerfile.frontend.prod
+          sync: {}  
     deploy:
       helm:
         releases:

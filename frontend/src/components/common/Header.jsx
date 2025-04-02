@@ -41,7 +41,7 @@ const AuthButtons = () => {
 const UserInfo = ({ user }) => (
   <div className="user-info">
     <strong>{user.username}</strong>
-    <div className="user-campus">{user.campus}</div>
+    <div className="user-campus">{user.campus.name}</div>
   </div>
 );
 

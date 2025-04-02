@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/AuthCard.css';
 import { login, signup } from '../utils/authHandler';
+import { getCampuses } from '../utils/campusHandler';
 
 const AuthCard = ({ defaultMode, prefilledEmail }) => {
   const [mode, setMode] = useState(defaultMode || 'signup');
   const [cardHeight, setCardHeight] = useState(0);
+  const [campuses, setCampuses] = useState([]);
   const sliderRef = useRef(null);
 
   // Update height based solely on the active panel's scrollHeight.
@@ -23,6 +25,19 @@ const AuthCard = ({ defaultMode, prefilledEmail }) => {
     window.addEventListener('resize', updateHeight);
     return () => window.removeEventListener('resize', updateHeight);
   }, [mode]);
+
+  // Fetch campuses on mount.
+  useEffect(() => {
+    const fetchCampuses = async () => {
+      try {
+        const data = await getCampuses();
+        setCampuses(data);
+      } catch (error) {
+        console.error('Error fetching campuses:', error);
+      }
+    };
+    fetchCampuses();
+  }, []);
 
   // Toggle mode and update height immediately.
   const handleToggle = (newMode) => {
@@ -72,7 +87,6 @@ const AuthCard = ({ defaultMode, prefilledEmail }) => {
 
   return (
     <div className="auth-card-container">
-      {/* Toggle header rendered above the card */}
       <div className="toggle-header">
         <span
           className={`toggle-label ${mode === 'signup' ? 'active' : ''}`}
@@ -133,13 +147,19 @@ const AuthCard = ({ defaultMode, prefilledEmail }) => {
               />
 
               <label htmlFor="signup-campus">Campus</label>
-              <input
+              <select
                 id="signup-campus"
                 name="signup-campus"
-                type="text"
-                placeholder="Campus"
                 required
-              />
+              >
+                <option value="">Select your campus</option>
+                {campuses.map((campus) => (
+                  <option key={campus._id} value={campus._id}>
+                    {campus.name}
+                  </option>
+                ))}
+              </select>
+
               <button type="submit" className="submit-button">
                 Sign Up
               </button>

@@ -24,7 +24,6 @@ const Dashboard = () => {
       <Header />
       <div className="dashboard-container">
         <ClassList />
-        <ChannelList />
         <DashboardContent
           activeChannel={activeChannel}
           messages={messages}

@@ -124,6 +124,27 @@
 
 }
 
+.auth-card select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.45rem;
+    font-size: 0.9rem;
+    border: 0.1rem solid var(--surface-a30);
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    background-color: var(--surface-a10);
+    color: var(--color-text);
+}
+.auth-form select:focus {
+    outline: none;
+    border-color: var(--primary-a10);
+}
+
+.auth-card select option {
+    background-color: var(--surface-a10);
+    color: var(--color-text);
+}
+
 .auth-form input::placeholder {
 
     font-size: 0.8rem;

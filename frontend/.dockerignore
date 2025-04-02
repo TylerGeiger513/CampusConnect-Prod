@@ -3,5 +3,7 @@
 .git/**
 .gitignore
 .vscode/**
-frontend/node_modules/**
-backend/node_modules/**
+node_modules/**
+node_modules/**
+*.py
+*.txt

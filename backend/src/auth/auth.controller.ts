@@ -61,7 +61,14 @@ export class AuthController {
     if (!userId) {
       return { message: 'No active session.' };
     } 
-    return this.authService.getProfile(userId);
+    const profile = await this.authService.getProfile(userId);
+    if (!profile) {
+      throw new UnauthorizedException('Profile not found.');
+    } else {
+      // make a new profile object without the password field
+      const { password, ...profileWithoutPassword } = profile;
+      return profileWithoutPassword;
+    }
   }
 
 }

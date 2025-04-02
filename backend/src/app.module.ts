@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule } from './config/config.module';
 import { DatabaseModule } from './database/database.module';
 import { EncryptionModule } from './encryption/encryption.module';
@@ -9,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { FriendsModule } from './friends/friends.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ChannelsModule } from './channels/channels.module';
+import { CampusService } from './campus/campus.service';
+import { CampusModule } from './campus/campus.module';
 
 @Module({
   imports: [
@@ -22,6 +24,15 @@ import { ChannelsModule } from './channels/channels.module';
     FriendsModule,
     NotificationsModule,
     ChannelsModule,
+    CampusModule,
   ],
 })
-export class AppModule {}
+
+export class AppModule implements OnModuleInit {
+  constructor(private readonly campusService: CampusService) {}
+
+  async onModuleInit() {
+    await this.campusService.seedCampuses();
+    
+  }
+}

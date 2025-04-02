@@ -2,6 +2,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { IUser, User, UserDocument } from './users.schema';
+import { CampusService } from '../campus/campus.service';
+import { ICampus } from './users.schema';
 
 /**
  * @interface IUsersRepository
@@ -24,6 +26,7 @@ export class UsersRepository implements IUsersRepository {
 
     constructor(
         @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+        private readonly campusService: CampusService,
     ) { }
 
     /**
@@ -34,18 +37,55 @@ export class UsersRepository implements IUsersRepository {
      * @param campus - User's campus.
      * @returns The created user as a plain object.
      */
-    async createUser(email: string, username: string, hashedPassword: string, campus: string): Promise<IUser> {
-        const createdUser = new this.userModel({ email, username, password: hashedPassword, campus });
-        // Save and convert to plain object with lean.
-        const savedUser = await createdUser.save();
-        const plainUser = savedUser.toObject() as IUser;
-        if (plainUser._id) {
-            plainUser._id = plainUser._id.toString();
-        } else {
-            throw new Error('User ID not found after save.');
+    async createUser(
+        email: string,
+        username: string,
+        hashedPassword: string,
+        campusId: string
+    ): Promise<IUser> {
+        // Verify that the campus exists.
+        const campusResult = await this.campusService.findCampusById(campusId.trim());
+        if (!campusResult) {
+            throw new Error('Campus not found');
         }
-        return plainUser;
+
+        // Create the user with the campus reference.
+        const createdUser = new this.userModel({
+            email,
+            username,
+            password: hashedPassword,
+            campus: campusId, // stored as an ObjectId
+        });
+
+        // Save the document.
+        const savedUser = await createdUser.save();
+
+        // Populate the campus field (selecting only the name).
+        await savedUser.populate('campus', 'name');
+
+        // Convert the saved document to a plain object.
+        const plainUser: any = savedUser.toObject();
+
+        // Convert _id to string.
+        plainUser._id = plainUser._id.toString();
+
+        // Convert the campus field:
+        if (plainUser.campus && plainUser.campus._id) {
+            // If campus was populated, set it as an object with id and name.
+            plainUser.campus = {
+                id: plainUser.campus._id.toString(),
+                name: plainUser.campus.name,
+            };
+        } else if (plainUser.campus) {
+            // Otherwise, convert the ObjectId to a string.
+            plainUser.campus = plainUser.campus.toString();
+        }
+
+        return plainUser as IUser;
     }
+
+
+
 
     /**
      * Finds a user by email.
@@ -53,9 +93,25 @@ export class UsersRepository implements IUsersRepository {
      * @returns The user as a plain object if found; otherwise, null.
      */
     async findByEmail(email: string): Promise<IUser | null> {
-        const user = await this.userModel.findOne({ email }).lean().exec();
-        return user ? { ...user, _id: user._id.toString() } : null;
+        const userDoc = await this.userModel.findOne({ email })
+            .populate('campus', 'name')
+            .exec();
+        if (userDoc) {
+            const plainUser: any = userDoc.toObject();
+            plainUser._id = plainUser._id.toString();
+            if (plainUser.campus && plainUser.campus._id) {
+                plainUser.campus = {
+                    id: plainUser.campus._id.toString(),
+                    name: plainUser.campus.name,
+                };
+            } else if (plainUser.campus) {
+                plainUser.campus = plainUser.campus.toString();
+            }
+            return plainUser as IUser;
+        }
+        return null;
     }
+
 
     /**
    * Finds a user by one or more identifiers.
@@ -84,18 +140,26 @@ export class UsersRepository implements IUsersRepository {
         const query = { $or: orConditions };
         this.logger.log(`Finding user with query: ${JSON.stringify(query)}`);
 
-        let user: any;
-        try {
-            user = await this.userModel.findOne(query).lean().exec();
-        } catch (error) {
-            this.logger.error(`Error finding user: ${error.message}`);
-            return null;
-        }
+        // Use populate to fetch campus details.
+        const userDoc = await this.userModel.findOne(query)
+            .populate('campus', 'name')  // populates campus with only the name field
+            .exec();
 
-        if (user && user._id) {
-            user._id = user._id.toString();
-            this.logger.log(`User found: ${user.username}`);
-            return user;
+        if (userDoc) {
+            const plainUser: any = userDoc.toObject();
+            plainUser._id = plainUser._id.toString();
+
+            // Convert campus field to { id, name } if it was populated.
+            if (plainUser.campus && plainUser.campus._id) {
+                plainUser.campus = {
+                    id: plainUser.campus._id.toString(),
+                    name: plainUser.campus.name,
+                };
+            } else if (plainUser.campus) {
+                // If for some reason it's not populated, fallback to string.
+                plainUser.campus = plainUser.campus.toString();
+            }
+            return plainUser as IUser;
         }
 
         this.logger.warn(`User not found for identifier: ${JSON.stringify(identifier)}`);
@@ -113,10 +177,14 @@ export class UsersRepository implements IUsersRepository {
         const updatedUser = await this.userModel.findByIdAndUpdate(userId, update, { new: true }).lean().exec();
         if (updatedUser && updatedUser._id) {
             updatedUser._id = updatedUser._id.toString();
+            if (updatedUser.campus && typeof updatedUser.campus !== 'string') {
+                (updatedUser as any).campus = updatedUser.campus.toString();
+            }
         }
         if (!updatedUser) {
             throw new Error('User not found');
         }
-        return { ...updatedUser, _id: updatedUser._id.toString() };
+        return { ...updatedUser, _id: updatedUser._id.toString() } as IUser;
     }
+
 }

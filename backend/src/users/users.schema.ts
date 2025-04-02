@@ -1,31 +1,41 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
+import { CAMPUS_MODEL } from '../campus/schemas/campus.schema';
 
-/**
- * @interface IUser
- * @description Represents a user.
- */
+export interface ICampus {
+    id: string;
+    name: string;
+}
+
 export interface IUser {
     _id?: string;
     email: string;
     username: string;
-    password: string; // Hashed password.
-    campus: string;
-    friendRequests?: string[];         // Incoming friend request user IDs.
-    sentFriendRequests?: string[];       // Outgoing friend request user IDs.
-    friends?: string[];                  // Confirmed friend user IDs.
-    blockedUsers?: string[];             // Blocked user IDs.
+    password: string;
+    campus: string | ICampus | Types.ObjectId;
+    friendRequests?: string[];
+    sentFriendRequests?: string[];
+    friends?: string[];
+    blockedUsers?: string[];
     createdAt?: Date;
     updatedAt?: Date;
 }
 
+
 export type UserDocument = User & Document;
 
-/**
- * @class User
- * @description Mongoose schema for the User collection.
- */
-@Schema({ timestamps: true })
+@Schema({
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+        versionKey: false,
+        transform: (doc, ret) => {
+            ret.id = ret._id.toString();
+            delete ret._id;
+            return ret;
+        }
+    }
+})
 export class User implements IUser {
     @Prop({ required: true, unique: true })
     email!: string;
@@ -36,8 +46,8 @@ export class User implements IUser {
     @Prop({ required: true })
     password!: string;
 
-    @Prop({ required: true })
-    campus!: string;
+    @Prop({ type: Types.ObjectId, ref: CAMPUS_MODEL, required: true })
+    campus!: string | ICampus;
 
     @Prop({ type: [String], default: [] })
     friendRequests!: string[];
@@ -50,7 +60,6 @@ export class User implements IUser {
 
     @Prop({ type: [String], default: [] })
     blockedUsers!: string[];
-
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

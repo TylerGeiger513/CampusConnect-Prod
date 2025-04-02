@@ -8,7 +8,7 @@ RUN npm install --production
 # Copy the rest of your app source
 COPY . .
 
-# Install Nest CLI globally (optional if not used at runtime)
+# Install Nest CLI globally 
 RUN npm install -g @nestjs/cli
 
 # Create a non-root user
