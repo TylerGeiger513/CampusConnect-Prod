@@ -34,6 +34,7 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 
 cd helm
+export TMPDIR=/tmp
 helm dependency update
 cd ..
 
