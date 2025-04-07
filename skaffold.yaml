@@ -3,37 +3,12 @@ kind: Config
 metadata:
   name: campus-connect
 
-build:
-  # Force the image tag to "latest"
-  tagPolicy:
-    customTemplate:
-      template: "latest"
-  artifacts:
-    - image: docker.io/tylergeiger/campus-connect-backend
-      context: backend
-      docker:
-        dockerfile: Dockerfile.backend.prod
-    - image: docker.io/tylergeiger/campus-connect-frontend
-      context: frontend
-      docker:
-        dockerfile: Dockerfile.frontend.prod
-
-  local: 
-    push: true
-
-deploy:
-  helm:
-    releases:
-      - name: campus-connect
-        chartPath: ./helm
-        valuesFiles:
-          - ./helm/values.prod.yaml
-        setValueTemplates:
-          domain: '{{cmd "hostname" "-f"}}'
-
 profiles:
   - name: dev
     build:
+      tagPolicy:
+        customTemplate:
+          template: "dev"
       artifacts:
         - image: docker.io/tylergeiger/campus-connect-backend
           context: backend
@@ -51,6 +26,8 @@ profiles:
             manual:
               - src: "src/**/*"
                 dest: "src/"
+      local:
+        push: true
     deploy:
       helm:
         releases:
@@ -60,18 +37,22 @@ profiles:
               - ./helm/values.dev.yaml
             setValueTemplates:
               domain: "localhost"
+              tagPolicy: "dev"
 
   - name: prod
     build:
+      tagPolicy:
+        customTemplate:
+          template: "latest"
       artifacts:
         - image: docker.io/tylergeiger/campus-connect-backend
           docker:
             dockerfile: Dockerfile.backend.prod
-          sync: {} 
+          sync: {}
         - image: docker.io/tylergeiger/campus-connect-frontend
           docker:
             dockerfile: Dockerfile.frontend.prod
-          sync: {}  
+          sync: {}
     deploy:
       helm:
         releases:
@@ -81,3 +62,4 @@ profiles:
               - ./helm/values.prod.yaml
             setValueTemplates:
               domain: '{{cmd "hostname" "-f"}}'
+              tagPolicy: "latest"

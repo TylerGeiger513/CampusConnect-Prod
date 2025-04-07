@@ -13,10 +13,12 @@ spec:
     metadata:
       labels:
         app: campus-connect-frontend
+      annotations:
+        keel.sh/update: "true"  
     spec:
       containers:
       - name: frontend
-        image: docker.io/tylergeiger/campus-connect-frontend:latest
+        image: "{{ .Values.frontend.image }}:{{ .Values.tagPolicy }}"
         imagePullPolicy: Always
         ports:
         - containerPort: 80
