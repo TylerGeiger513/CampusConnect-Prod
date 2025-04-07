@@ -21,6 +21,9 @@ fi
 
 echo "$USERNAME:password" | chpasswd
 
+sudo mkdir -p /var/tmp/ccuser-tmp
+sudo chown ccuser:ccuser /var/tmp/ccuser-tmp
+sudo chmod 1777 /var/tmp/ccuser-tmp
 
 echo "📦 Installing Minikube..."
 curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
