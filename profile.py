@@ -16,7 +16,7 @@ request.addTour(tour)
 
 # Define node
 node = request.RawPC("deploy-node")
-node.hardware_type = "c6525-100g"
+node.hardware_type = "c6525-25g"
 node.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
 node.routable_control_ip = True
 
