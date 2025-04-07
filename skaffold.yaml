@@ -46,10 +46,12 @@ profiles:
           template: "latest"
       artifacts:
         - image: docker.io/tylergeiger/campus-connect-backend
+          context: backend
           docker:
             dockerfile: backend/Dockerfile.backend.prod
           sync: {}
         - image: docker.io/tylergeiger/campus-connect-frontend
+          context: frontend
           docker:
             dockerfile: frontend/Dockerfile.frontend.prod
           sync: {}
