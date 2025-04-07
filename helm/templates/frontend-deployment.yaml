@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: campus-connect-frontend:latest
-        imagePullPolicy: IfNotPresent
+        image: docker.io/tylergeiger/campus-connect-frontend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         envFrom:

@@ -2,6 +2,7 @@
 import React from 'react';
 import ChatChannel from './ChatChannel';
 import '../../styles/DashboardContent.css';
+import UniversitySocialFeed from './UniversitySocialFeed';
 
 const DashboardContent = ({ activeChannel, messages, newMessage, setNewMessage, sendMessage }) => {
   return (
@@ -15,7 +16,7 @@ const DashboardContent = ({ activeChannel, messages, newMessage, setNewMessage, 
           sendMessage={sendMessage}
         />
       ) : (
-        <div className="no-active-channel">No active channel</div>
+        <UniversitySocialFeed />
       )}
     </div>
   );

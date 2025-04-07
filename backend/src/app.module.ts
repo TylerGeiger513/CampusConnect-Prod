@@ -11,6 +11,7 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { ChannelsModule } from './channels/channels.module';
 import { CampusService } from './campus/campus.service';
 import { CampusModule } from './campus/campus.module';
+import { PostsModule } from './posts/post.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { CampusModule } from './campus/campus.module';
     NotificationsModule,
     ChannelsModule,
     CampusModule,
+    PostsModule,
   ],
 })
 

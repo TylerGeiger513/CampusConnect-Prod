@@ -10,10 +10,14 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.8.1",
     "axios": "^1.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "immutable": "^5.1.1",
+    "lucide-react": "^0.487.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^7.4.0",
     "react-scripts": "5.0.1",
+    "slate": "^0.112.0",
+    "slate-react": "^0.112.1",
     "socket.io-client": "^4.8.1"
   },
   "browserslist": {

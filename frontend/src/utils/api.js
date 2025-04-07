@@ -23,4 +23,12 @@ export const createNotificationsSocket = () => {
     path: '/notifications/socket.io',
     withCredentials: true,
   });
-};
+}
+
+export const createPostsSocket = (campusId) => {
+  return io(`${SOCKET_BASE ?? ''}/posts`, {
+    query: { campusId },
+    path: '/posts/socket.io',
+    withCredentials: true,
+  });
+}

@@ -1,0 +1,263 @@
+/* University Social Feed */
+.university-feed {
+    font-family: Arial, sans-serif;
+    background-color: var(--surface-a30);
+    color: var(--color-text);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 0 8px 8px;
+    height: 80%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.university-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--surface-a50);
+}
+
+.university-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.university-icon {
+    color: var(--color-text);
+}
+
+.university-title h1 {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--color-text-alt);
+    margin: 0;
+}
+
+.feed-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 8px;
+}
+
+.post {
+    background-color: var(--surface-a40);
+    border-radius: 8px;
+    margin: 16px 0;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    position: relative;
+    border: 1px solid var(--surface-a50);
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* Profile image styling for actual images */
+.profile-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+}
+
+/* Profile placeholder styling for missing images */
+.profile-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-color: var(--surface-a50);
+    color: var(--color-text-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.poster-info h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 2px;
+}
+
+.department {
+    font-size: 14px;
+    color: var(--color-text-alt);
+    margin: 0;
+}
+
+.post-content {
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.post-content p {
+    margin: 8px 0;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--surface-a50);
+    padding-top: 12px;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.like-button {
+    background: none;
+    border: none;
+    color: var(--primary-a40);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+
+
+.heart-icon {
+    transition: fill 0.5s ease;
+    stroke: var(--primary-a40);
+}
+
+.heart-icon.filled {
+    fill: var(--primary-a40);
+    stroke: var(--primary-a40);
+}
+
+.like-button:hover .heart-icon {
+    /* Optionally adjust opacity or use a different primary variable */
+    fill: var(--primary-a40);
+}
+
+.tags {
+    display: flex;
+    gap: 8px;
+    overflow-x: scroll;
+}
+
+.tags::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+.tag {
+    background-color: var(--surface-a50);
+    color: var(--color-text);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 12px;
+}
+
+.create-post {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid var(--surface-a50);
+    margin-top: 16px;
+}
+
+.post-button {
+    background-color: var(--surface-a50);
+    border: none;
+    color: var(--color-text-alt);
+    padding: 12px 20px;
+    border-radius: 25px;
+    flex-grow: 1;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.rich-editor {
+    background-color: var(--surface-a50);
+    border: none;
+    color: var(--color-text-alt);
+    padding: 12px 20px;
+    border-radius: 25px;
+    flex-grow: 1;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.post-button:hover {
+    background-color: var(--surface-a40);
+}
+
+.post-creator {
+    flex-grow: 1;
+}
+
+.post-input {
+    width: 90%;
+    background-color: var(--surface-a50);
+    border: 1px solid var(--surface-a50);
+    border-radius: 8px;
+    padding: 12px;
+    color: var(--color-text);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    min-height: 80px;
+    resize: vertical;
+    margin-bottom: 8px;
+}
+
+.post-input:focus {
+    outline: none;
+    border-color: var(--surface-a40);
+}
+
+.post-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.post-submit,
+.post-cancel {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hashtag {
+    color: var(--primary-a40);
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.post-submit {
+    background-color: var(--primary-a40);
+    color: var(--color-text);
+}
+
+.post-cancel {
+    background-color: var(--surface-a50);
+    color: var(--color-text-alt);
+}
+
+.post-submit:hover {
+    background-color: var(--primary-a50);
+}
+
+.post-cancel:hover {
+    background-color: var(--surface-a40);
+}

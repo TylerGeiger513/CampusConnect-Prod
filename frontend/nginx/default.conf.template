@@ -27,6 +27,14 @@ server {
     proxy_set_header Host $host;
   }
 
+  location /posts/socket.io {
+    proxy_pass http://$NGINX_BACKEND_UPSTREAM/posts/socket.io;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+  }
+
   # Serve static files (React app)
   location / {
     root /usr/share/nginx/html;

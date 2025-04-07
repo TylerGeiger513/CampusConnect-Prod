@@ -4,15 +4,22 @@ metadata:
   name: campus-connect
 
 build:
+  # Force the image tag to "latest"
+  tagPolicy:
+    customTemplate:
+      template: "latest"
   artifacts:
-    - image: campus-connect-backend
+    - image: docker.io/tylergeiger/campus-connect-backend
       context: backend
       docker:
         dockerfile: Dockerfile.backend.prod
-    - image: campus-connect-frontend
+    - image: docker.io/tylergeiger/campus-connect-frontend
       context: frontend
       docker:
         dockerfile: Dockerfile.frontend.prod
+
+  local: 
+    push: true
 
 deploy:
   helm:
@@ -28,7 +35,7 @@ profiles:
   - name: dev
     build:
       artifacts:
-        - image: campus-connect-backend
+        - image: docker.io/tylergeiger/campus-connect-backend
           context: backend
           docker:
             dockerfile: backend/Dockerfile.backend.dev
@@ -36,7 +43,7 @@ profiles:
             manual:
               - src: "src/**/*.ts"
                 dest: "."
-        - image: campus-connect-frontend
+        - image: docker.io/tylergeiger/campus-connect-frontend
           context: frontend
           docker:
             dockerfile: frontend/Dockerfile.frontend.dev
@@ -57,11 +64,11 @@ profiles:
   - name: prod
     build:
       artifacts:
-        - image: campus-connect-backend
+        - image: docker.io/tylergeiger/campus-connect-backend
           docker:
             dockerfile: Dockerfile.backend.prod
           sync: {} 
-        - image: campus-connect-frontend
+        - image: docker.io/tylergeiger/campus-connect-frontend
           docker:
             dockerfile: Dockerfile.frontend.prod
           sync: {}  
