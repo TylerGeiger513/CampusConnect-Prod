@@ -47,11 +47,11 @@ profiles:
       artifacts:
         - image: docker.io/tylergeiger/campus-connect-backend
           docker:
-            dockerfile: Dockerfile.backend.prod
+            dockerfile: backend/Dockerfile.backend.prod
           sync: {}
         - image: docker.io/tylergeiger/campus-connect-frontend
           docker:
-            dockerfile: Dockerfile.frontend.prod
+            dockerfile: frontend/Dockerfile.frontend.prod
           sync: {}
     deploy:
       helm:
