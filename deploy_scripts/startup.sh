@@ -32,6 +32,9 @@ cd /local/repository
 
 echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
+
+helm dependency update
+
 skaffold run -p prod
 
 

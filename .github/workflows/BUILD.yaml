@@ -32,5 +32,3 @@ jobs:
       - name: Build and Push Production Images
         run: skaffold build --profile prod
 
-      - name: Deploy to Kubernetes (Prod)
-        run: skaffold deploy --profile prod
