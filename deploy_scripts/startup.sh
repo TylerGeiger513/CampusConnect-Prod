@@ -49,7 +49,7 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 
 
-skaffold deploy -p prod-deploy -v debug --tail 2>&1 | tee -a /local/logs/app.log
+skaffold deploy -p prod-deploy -v debug 2>&1 | tee -a /local/logs/app.log
 
 
 HOSTNAME=$(hostname -f)

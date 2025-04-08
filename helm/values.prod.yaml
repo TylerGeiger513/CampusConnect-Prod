@@ -19,10 +19,12 @@ frontend:
     port: 80
 
 keel:
-  policy: all
-  trigger: poll
-  pollSchedule: "@every 1m"
-  images:
-    - repository: image.repository
-      tag: image.tag  
-      imagePullSecret: my-secret-name
+  args:
+    - "--no-auth"
+  env:
+    - name: POLL
+      value: "true"
+    - name: POLL_DEFAULTSCHEDULE
+      value: "@every 1m"
+    - name: NOTIFICATION_LEVEL
+      value: "debug"
