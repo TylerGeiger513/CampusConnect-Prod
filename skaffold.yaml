@@ -39,24 +39,8 @@ profiles:
               domain: "localhost"
               tagPolicy: "dev"
 
-  - name: prod
-    build:
-      local:
-        push: false
-      tagPolicy:
-        customTemplate:
-          template: "latest"
-      artifacts:
-        - image: docker.io/tylergeiger/campus-connect-backend
-          context: backend
-          docker:
-            dockerfile: Dockerfile.backend.prod
-          sync: {}
-        - image: docker.io/tylergeiger/campus-connect-frontend
-          context: frontend
-          docker:
-            dockerfile: Dockerfile.frontend.prod
-          sync: {}
+  - name: prod-deploy
+    build: {}  # no build step
     deploy:
       helm:
         releases:

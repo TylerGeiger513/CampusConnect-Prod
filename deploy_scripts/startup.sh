@@ -49,7 +49,7 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 
 
-skaffold run -p prod --default-repo=docker.io/tylergeiger
+skaffold deploy -p prod-deploy
 
 
 HOSTNAME=$(hostname -f)
