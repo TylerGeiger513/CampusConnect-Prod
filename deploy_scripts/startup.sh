@@ -36,6 +36,8 @@ sudo chmod -R 775 /local/
 
 # Run Helm commands as ccuser
 sudo -u ccuser -i bash <<EOF
+helm repo add keel https://keel-hq.github.io/keel/
+helm repo update
 cd /local/repository/helm
 helm dependency update
 EOF
@@ -47,7 +49,7 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 
 
-skaffold deploy -p prod-deploy
+skaffold deploy -p prod-deploy -v debug --tail 2>&1 | tee -a /local/logs/app.log
 
 
 HOSTNAME=$(hostname -f)
