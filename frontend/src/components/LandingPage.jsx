@@ -48,7 +48,7 @@ const LandingPlaceholder = () => {
       >
         <h1 className="landing-title">Campus Connect</h1>
         <p className="landing-description">
-          Sign up to see what your peers and classmates are up to!
+          Sign up to see what your peers and classmates are up to! + CI/CD WORKS!!!
         </p>
         <div className="signup-div">
           <form className="landing-form" onSubmit={handleSubmit}>
