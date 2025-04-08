@@ -29,6 +29,8 @@ echo "password" | sudo -S nohup socat TCP-LISTEN:80,fork TCP:192.168.49.2:80 > /
 
 
 export TMPDIR=/var/tmp/ccuser-tmp
+sudo helm repo add keel https://charts.keel.sh /local/repository/helm
+sudo helm repo update /local/repository/helm
 sudo helm dependency update /local/repository/helm
 
 
