@@ -7,4 +7,4 @@ appVersion: "1.16.0"
 dependencies:
   - name: keel
     version: ">=0.1.0" 
-    repository: "https://charts.keel.sh"
+    repository: "https://keel-hq.github.io/keel/"
