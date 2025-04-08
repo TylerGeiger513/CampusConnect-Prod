@@ -61,8 +61,7 @@ const Header = () => {
     <header className="app-header">
       <div className="header-inner">
         <div className="logo">
-          // Header in the top left of the screen
-          <h1>Campus Connect (updated)</h1>
+          <h1>Campus Connect</h1>
         </div>
         <ToggleThemeButton />
         <nav className="nav-content">
