@@ -36,10 +36,10 @@ sudo chmod -R 775 /local/
 
 # Run Helm commands as ccuser
 sudo -u ccuser -i bash <<EOF
-helm repo add keel https://charts.keel.sh
+helm repo add keel https://keel-hq.github.io/keel/ 
 helm repo update
 cd /local/repository/helm
-helm dependency update
+helm upgrade --install keel --namespace=kube-system keel/keel
 EOF
 
 echo "🚀 Deploying app with Skaffold..."

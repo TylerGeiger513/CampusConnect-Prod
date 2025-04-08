@@ -14,7 +14,9 @@ spec:
       labels:
         app: campus-connect-frontend
       annotations:
-        keel.sh/update: "true"  
+        keel.sh/policy: force
+        keel.sh/trigger: poll      
+        keel.sh/pollSchedule: "@every 1m"
     spec:
       containers:
       - name: frontend

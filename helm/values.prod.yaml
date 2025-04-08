@@ -19,6 +19,10 @@ frontend:
     port: 80
 
 keel:
-  env:
-    interval: "1m"
-    LOG_LEVEL: "info"
+  policy: all
+  trigger: poll
+  pollSchedule: "@every 1m"
+  images:
+    - repository: image.repository
+      tag: image.tag  
+      imagePullSecret: my-secret-name
