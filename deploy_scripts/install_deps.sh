@@ -29,9 +29,6 @@ sudo mkdir -p /local/repository
 sudo chown ccuser:ccuser /local/repository
 sudo chmod 1777 /local/
 
-sudo mkdir -p /local/repository
-sudo chown ccuser:ccuser /local/repository/helm/chart
-sudo chmod 1777 /local/repository/helm/chart
 
 
 echo "📦 Installing Minikube..."
