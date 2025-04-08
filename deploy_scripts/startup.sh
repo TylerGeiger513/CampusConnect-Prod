@@ -27,12 +27,20 @@ echo "password" | sudo -S nohup minikube tunnel > /local/logs/tunnel.log 2>&1 &
 echo "🔁 Starting socat port forward from 80 -> 192.168.49.2:80..."
 echo "password" | sudo -S nohup socat TCP-LISTEN:80,fork TCP:192.168.49.2:80 > /local/logs/socat.log 2>&1 &
 
+echo "🐳 Configuring Docker to use Minikube's Docker daemon..."
+eval $(minikube docker-env)
 
 export TMPDIR=/var/tmp/ccuser-tmp
-sudo helm repo add keel https://charts.keel.sh 
-sudo helm repo update 
-sudo helm dependency update /local/repository/helm
+sudo chown -R ccuser:ccuser /local/
+sudo chmod -R 775 /local/
 
+# Run Helm commands as ccuser
+sudo -u ccuser -i bash <<EOF
+helm repo add keel https://charts.keel.sh
+helm repo update
+cd /local/repository/helm
+helm dependency update
+EOF
 
 echo "🚀 Deploying app with Skaffold..."
 cd /local/repository
