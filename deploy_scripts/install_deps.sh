@@ -25,6 +25,15 @@ sudo mkdir -p /var/tmp/ccuser-tmp
 sudo chown ccuser:ccuser /var/tmp/ccuser-tmp
 sudo chmod 1777 /var/tmp/ccuser-tmp
 
+sudo mkdir -p /local/repository
+sudo chown ccuser:ccuser /local/repository
+sudo chmod 1777 /local/
+
+sudo mkdir -p /local/repository
+sudo chown ccuser:ccuser /local/repository/helm/chart
+sudo chmod 1777 /local/repository/helm/chart
+
+
 echo "📦 Installing Minikube..."
 curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
 install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64

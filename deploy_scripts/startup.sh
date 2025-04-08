@@ -29,7 +29,7 @@ echo "password" | sudo -S nohup socat TCP-LISTEN:80,fork TCP:192.168.49.2:80 > /
 
 
 export TMPDIR=/var/tmp/ccuser-tmp
-helm dependency update /local/repository/helm
+sudo helm dependency update /local/repository/helm
 
 
 echo "🚀 Deploying app with Skaffold..."
@@ -39,7 +39,7 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 
 
-skaffold run -p prod --no-push
+skaffold run -p prod 
 
 
 HOSTNAME=$(hostname -f)

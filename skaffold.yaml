@@ -42,6 +42,35 @@ profiles:
   - name: prod
     build:
       local:
+        push: false
+      tagPolicy:
+        customTemplate:
+          template: "latest"
+      artifacts:
+        - image: docker.io/tylergeiger/campus-connect-backend
+          context: backend
+          docker:
+            dockerfile: Dockerfile.backend.prod
+          sync: {}
+        - image: docker.io/tylergeiger/campus-connect-frontend
+          context: frontend
+          docker:
+            dockerfile: Dockerfile.frontend.prod
+          sync: {}
+    deploy:
+      helm:
+        releases:
+          - name: campus-connect
+            chartPath: ./helm
+            valuesFiles:
+              - ./helm/values.prod.yaml
+            setValueTemplates:
+              domain: '{{cmd "hostname" "-f"}}'
+              tagPolicy: "latest"
+    
+  - name: prod-push
+    build:
+      local:
         push: true
       tagPolicy:
         customTemplate:
