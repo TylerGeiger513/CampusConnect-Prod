@@ -20,7 +20,7 @@ kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
   --timeout=90s
-  
+
 echo "🌉 Starting Minikube tunnel..."
 echo "password" | sudo -S nohup minikube tunnel > /local/logs/tunnel.log 2>&1 &
 
@@ -34,23 +34,24 @@ export TMPDIR=/var/tmp/ccuser-tmp
 sudo chown -R ccuser:ccuser /local/
 sudo chmod -R 775 /local/
 
-# Run Helm commands as ccuser
+echo "📦 Installing Keel separately via Helm..."
 sudo -u ccuser -i bash <<EOF
 helm repo add keel https://keel-hq.github.io/keel/
 helm repo update
-cd /local/repository/helm
-helm dependency update
+helm upgrade --install keel keel/keel \
+  --namespace default \
+  --set image.repository=your-dockerhub/keel \
+  --set image.tag=latest \
+  --set command='{"/bin/keel","--enable-webhook-auth=false"}'
 EOF
 
 echo "🚀 Deploying app with Skaffold..."
 cd /local/repository
 
-echo "current directory: $(pwd)" # debug
-echo "current user: $(whoami)"  # debug
-
+echo "current directory: $(pwd)"
+echo "current user: $(whoami)"
 
 skaffold deploy -p prod-deploy -v debug 2>&1 | tee -a /local/logs/app.log
-
 
 HOSTNAME=$(hostname -f)
 
