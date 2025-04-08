@@ -37,7 +37,8 @@ sudo chmod -R 775 /local/
 echo "📦 Installing Keel separately via Helm..."
 helm repo add keel https://charts.keel.sh
 helm repo update
-helm upgrade --install keel keel/keel -n default -f values.yaml
+cd /local/repository/helm
+helm upgrade --install keel keel/keel -n default -f keel-values.yaml
 
 echo "Waiting for the Keel deployment to become available..."
 kubectl rollout status deployment/keel -n default
@@ -45,13 +46,17 @@ kubectl rollout status deployment/keel -n default
 SERVICE_IP=$(kubectl get svc -n default keel -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "Keel is now running and available at http://$SERVICE_IP:9300"
 
+echo "Forwarding port 9300 to expose the Keel API..."
+echo "password" | sudo -S nohup socat TCP-LISTEN:9300,fork TCP:$SERVICE_IP:9300 > /local/logs/keel.log 2>&1 &
+
+
 echo "🚀 Deploying app with Skaffold..."
 cd /local/repository
 
 echo "current directory: $(pwd)"
 echo "current user: $(whoami)"
 
-skaffold deploy -p prod-deploy -v debug 2>&1 | tee -a /local/logs/app.log
+skaffold deploy -p prod-deploy -v info 2>&1 | tee -a /local/logs/app.log
 
 HOSTNAME=$(hostname -f)
 
