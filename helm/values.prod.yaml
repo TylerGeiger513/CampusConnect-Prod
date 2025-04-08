@@ -17,14 +17,3 @@ frontend:
   service:
     type: ClusterIP
     port: 80
-
-keel:
-  args:
-    - "--no-auth"
-  env:
-    - name: POLL
-      value: "true"
-    - name: POLL_DEFAULTSCHEDULE
-      value: "@every 1m"
-    - name: NOTIFICATION_LEVEL
-      value: "debug"
