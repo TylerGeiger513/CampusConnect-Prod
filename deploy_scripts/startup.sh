@@ -40,7 +40,7 @@ helm repo add keel https://keel-hq.github.io/keel/
 helm repo update
 helm upgrade --install keel keel/keel \
   --namespace default \
-  --set image.repository=your-dockerhub/keel \
+  --set image.repository=keelhq/keel \
   --set image.tag=latest \
   --set command='{"/bin/keel","--enable-webhook-auth=false"}'
 EOF
