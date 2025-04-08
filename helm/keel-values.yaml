@@ -1,0 +1,24 @@
+image:
+  repository: keelhq/keel
+  tag: latest
+  pullPolicy: Always
+
+service:
+  enabled: true
+  type: LoadBalancer
+  externalPort: 9300
+  clusterIP: ""
+
+secret:
+  create: true 
+
+basicauth:
+  enabled: true
+  user: admin
+  password: password
+
+polling:
+  enabled: true
+  defaultSchedule: "@every 1m"
+
+notificationLevel: info

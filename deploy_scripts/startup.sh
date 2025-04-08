@@ -35,26 +35,15 @@ sudo chown -R ccuser:ccuser /local/
 sudo chmod -R 775 /local/
 
 echo "📦 Installing Keel separately via Helm..."
-sudo -u ccuser -i bash <<EOF
 helm repo add keel https://charts.keel.sh
 helm repo update
-helm upgrade --install keel keel/keel \
-  --namespace kube-system \
-  --set image.repository=keelhq/keel \
-  --set image.tag=latest \
-  --set polling.enabled=true \
-  --set polling.defaultSchedule="@every 1m" \
-  --set basicauth.enabled=true \
-  --set basicauth.user=admin \
-  --set basicauth.password=password \
-  --set service.enabled=true \
-  --set service.type=LoadBalancer \
-  --set service.externalPort=9300 \
-  --set notificationLevel=info \
-  --set helmProvider.enabled=true \
-  --set XDG_DATA_HOME=/data
+helm upgrade --install keel keel/keel -n default -f values.yaml
 
-EOF
+echo "Waiting for the Keel deployment to become available..."
+kubectl rollout status deployment/keel -n default
+
+SERVICE_IP=$(kubectl get svc -n default keel -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Keel is now running and available at http://$SERVICE_IP:9300"
 
 echo "🚀 Deploying app with Skaffold..."
 cd /local/repository
