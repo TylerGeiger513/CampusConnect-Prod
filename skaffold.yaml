@@ -41,6 +41,8 @@ profiles:
 
   - name: prod
     build:
+      local:
+        push: true
       tagPolicy:
         customTemplate:
           template: "latest"

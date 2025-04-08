@@ -39,7 +39,7 @@ echo "current directory: $(pwd)" # debug
 echo "current user: $(whoami)"  # debug
 
 
-skaffold run -p prod
+skaffold run -p prod --no-push
 
 
 HOSTNAME=$(hostname -f)
