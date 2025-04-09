@@ -68,7 +68,7 @@ const usePosts = () => {
                     setPosts([]);
                     return;
                 }
-                data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
                 setPosts(data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
