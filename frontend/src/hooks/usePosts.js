@@ -64,7 +64,12 @@ const usePosts = () => {
             }
             try {
                 const data = await getPosts(user.campus.id);
-                setPosts(Array.isArray(data) ? data : []);
+                if (!data || !Array.isArray(data)) {
+                    setPosts([]);
+                    return;
+                }
+                data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setPosts(data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
