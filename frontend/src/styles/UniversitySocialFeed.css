@@ -181,7 +181,7 @@
     text-align: left;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .rich-editor {
@@ -236,7 +236,7 @@
     border: none;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .hashtag {
