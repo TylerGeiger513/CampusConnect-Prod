@@ -7,11 +7,14 @@ import { getPosts, createPost, likePost } from '../utils/postsHandler';
 import { createPostsSocket } from '../utils/api';
 import useUser from './useUser';
 
-
 const extractHashtags = (text) => {
     const regex = /#[\w]{1,32}/g;
     const matches = text.match(regex);
     return matches ? [...new Set(matches.map(tag => tag.substring(1)))] : [];
+};
+
+const sortPosts = (postsArray) => {
+    return [...postsArray].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 };
 
 const usePosts = () => {
@@ -37,12 +40,14 @@ const usePosts = () => {
 
         const handlePostCreated = (post) => {
             if (post.senderId === user._id) return;
-            setPosts((prevPosts) => [...prevPosts, post]);
+            setPosts((prevPosts) => sortPosts([...prevPosts, post]));
         };
 
         const handlePostLiked = (post) => {
             setPosts((prevPosts) =>
-                prevPosts.map((p) => (p._id === post._id ? post : p))
+                sortPosts(
+                    prevPosts.map((p) => (p._id === post._id ? post : p))
+                )
             );
         };
 
@@ -68,8 +73,7 @@ const usePosts = () => {
                     setPosts([]);
                     return;
                 }
-                data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-                setPosts(data);
+                setPosts(sortPosts(data));
             } catch (error) {
                 console.error('Error fetching posts:', error);
             }
@@ -82,7 +86,7 @@ const usePosts = () => {
         try {
             const hashtags = extractHashtags(newPost);
             const post = await createPost(user.campus.id, newPost, hashtags);
-            setPosts((prevPosts) => [...prevPosts, post]);
+            setPosts((prevPosts) => sortPosts([...prevPosts, post]));
             setNewPost('');
         } catch (error) {
             console.error('Error creating post:', error);
@@ -93,7 +97,9 @@ const usePosts = () => {
         try {
             const updatedPost = await likePost(postId);
             setPosts((prevPosts) =>
-                prevPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p))
+                sortPosts(
+                    prevPosts.map((p) => (p._id === updatedPost._id ? updatedPost : p))
+                )
             );
         } catch (error) {
             console.error('Error liking post:', error);
