@@ -8,6 +8,7 @@ import {
   acceptFriendRequest,
   denyFriendRequest,
 } from '../../utils/friendsHandler';
+import HamburgerMenu from './HamburgerMenu';
 
 const FriendsList = ({ isCollapsed, toggleCollapse, toggleFriendChannel, activeChannel }) => {
   const [friends, setFriends] = useState([]);
@@ -63,19 +64,11 @@ const FriendsList = ({ isCollapsed, toggleCollapse, toggleFriendChannel, activeC
   return (
     <div className={`friends-list ${isCollapsed ? 'collapsed' : 'open'}`}>
       <div className="friends-header">
-        <div
-          id="friendsMenu"
-          className={isCollapsed ? '' : 'open'}
-          onClick={toggleCollapse}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        { !isCollapsed && <h3>Friends</h3> }
+        <HamburgerMenu
+          isOpen={!isCollapsed}
+          onToggle={toggleCollapse}
+        />
+        {!isCollapsed && <h3>Friends</h3>}
       </div>
       {!isCollapsed && (
         <>

@@ -1,0 +1,83 @@
+/* Hamburger menu styling */
+#hamburgerMenu {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  
+  #hamburgerMenu span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 50%;
+    background: var(--primary-a30);
+    opacity: 1;
+    transform: rotate(0deg);
+    transition: 0.5s ease-in-out;
+  }
+  
+  #hamburgerMenu span:nth-child(even) {
+    left: 50%;
+    border-radius: 0 3px 3px 0;
+  }
+  
+  #hamburgerMenu span:nth-child(odd) {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+  }
+  
+  #hamburgerMenu span:nth-child(1),
+  #hamburgerMenu span:nth-child(2) {
+    top: 0;
+  }
+  
+  #hamburgerMenu span:nth-child(3),
+  #hamburgerMenu span:nth-child(4) {
+    top: 9px;
+  }
+  
+  #hamburgerMenu span:nth-child(5),
+  #hamburgerMenu span:nth-child(6) {
+    top: 18px;
+  }
+  
+  #hamburgerMenu.open span:nth-child(1),
+  #hamburgerMenu.open span:nth-child(6) {
+    transform: rotate(45deg);
+  }
+  
+  #hamburgerMenu.open span:nth-child(2),
+  #hamburgerMenu.open span:nth-child(5) {
+    transform: rotate(-45deg);
+  }
+  
+  #hamburgerMenu.open span:nth-child(1) {
+    left: 3px;
+    top: 6px;
+  }
+  
+  #hamburgerMenu.open span:nth-child(2) {
+    left: calc(50% - 3px);
+    top: 6px;
+  }
+  
+  #hamburgerMenu.open span:nth-child(3) {
+    left: -50%;
+    opacity: 0;
+  }
+  
+  #hamburgerMenu.open span:nth-child(4) {
+    left: 100%;
+    opacity: 0;
+  }
+  
+  #hamburgerMenu.open span:nth-child(5) {
+    left: 3px;
+    top: 14px;
+  }
+  
+  #hamburgerMenu.open span:nth-child(6) {
+    left: calc(50% - 3px);
+    top: 14px;
+  }
