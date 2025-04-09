@@ -26,7 +26,7 @@ async function bootstrap() {
 
   // Enable CORS with secure configuration.
   app.enableCors({
-    origin: configService.corsOrigin,
+    origin: `http://${configService.corsOrigin}`,
     credentials: true,
   });
 

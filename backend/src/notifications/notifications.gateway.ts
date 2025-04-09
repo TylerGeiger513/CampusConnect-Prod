@@ -21,7 +21,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
     namespace: '/notifications',
     path: '/notifications/socket.io',
     cors: {
-        origin: `${process.env.CORS_ORIGIN}`, // Adjust this for production.
+        origin: `http://${process.env.CORS_ORIGIN}`, 
         credentials: true,
     },
 })
