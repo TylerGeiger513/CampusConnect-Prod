@@ -22,7 +22,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
     namespace: '/channels',
     path: '/channels/socket.io',
     cors: {
-        origin: '*', // For production, set this to trusted origins.
+        origin: `${process.env.CORS_ORIGIN}`, // Adjust this for production.
         credentials: true,
     },
 })
