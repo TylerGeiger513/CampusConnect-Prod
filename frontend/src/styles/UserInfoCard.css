@@ -1,0 +1,77 @@
+.user-info-card {
+    background-color: #444;
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+  }
+    
+  .info-field {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+    
+  .info-field label {
+    width: 100px;
+    font-size: 14px;
+    color: #ccc;
+    margin-right: 10px;
+  }
+    
+  .info-field input,
+  .info-field select {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #555;
+    color: white;
+    margin-right: 50px;
+    margin-left: 10px;
+  }
+    
+  .edit-btn {
+    background-color: #666;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 16px;
+  }
+    
+  .edit-btn:hover {
+    background-color: #777;
+  }
+  
+  .display-mode {
+    margin-left: 20px;
+    margin-bottom: 16px;
+  }
+    
+  .display-mode p {
+    display: flex;
+    align-items: center;
+    font-size: 16px;      
+    color: #e0e0e0;       
+    margin: 10px 0;       
+    line-height: 1.6;
+    padding-bottom: 10px; 
+    position: relative;
+  }
+    
+  .display-mode p:not(:last-child) {
+    border-bottom: 1px solid #555;
+    margin-bottom: 10px;
+  }
+    
+  .display-mode p strong {
+    font-weight: bold;
+    color: #fff;
+    width: 150px;        
+    margin-right: 20px;   
+  }
+  
