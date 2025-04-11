@@ -1,13 +1,13 @@
 // src/components/Dashboard.jsx
 import React, { useState } from 'react';
-import ClassList from './ClassList';
+import ClassList from './SideNav';
 import ChannelList from './ChannelList';
 import DashboardContent from './DashboardContent';
 import FriendsList from './FriendsList';
 import Header from '../common/Header';
 import '../../styles/Dashboard.css';
 import useChannel from '../../hooks/useChannel';
-
+import SideNav from './SideNav';
 const Dashboard = () => {
   const [isFriendsCollapsed, setIsFriendsCollapsed] = useState(false);
   const {
@@ -23,7 +23,7 @@ const Dashboard = () => {
     <>
       <Header />
       <div className="dashboard-container">
-        <ClassList />
+        <SideNav />
         <DashboardContent
           activeChannel={activeChannel}
           messages={messages}
@@ -31,12 +31,12 @@ const Dashboard = () => {
           setNewMessage={setNewMessage}
           sendMessage={sendMessage}
         />
-        <FriendsList
+        {/* <FriendsList
           isCollapsed={isFriendsCollapsed}
           toggleCollapse={() => setIsFriendsCollapsed(!isFriendsCollapsed)}
           toggleFriendChannel={toggleFriendChannel}
           activeChannel={activeChannel}
-        />
+        /> */}
       </div>
     </>
   );

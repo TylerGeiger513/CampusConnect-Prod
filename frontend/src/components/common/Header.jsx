@@ -3,6 +3,7 @@ import React from 'react';
 import useUser from '../../hooks/useUser';
 import '../../styles/Header.css';
 import useTheme from '../../hooks/useTheme';
+import {lightTheme } from '../../context/ThemeContext';
 
 const toggleTheme = (theme, setTheme) => {
   setTheme(theme === 'light' ? 'dark' : 'light');

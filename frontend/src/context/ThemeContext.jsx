@@ -75,7 +75,15 @@ export const ThemeProvider = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === lightTheme ? darkTheme : lightTheme));
+    const root = document.documentElement;
+    root.classList.add('theme-transition')
+
+    window.requestAnimationFrame(() => {
+      setTheme(prevTheme => (prevTheme === lightTheme ? darkTheme : lightTheme));
+    }) 
+    setTimeout(() => {
+      root.classList.remove('theme-transition')
+    }, 500); 
   };
 
   return (
