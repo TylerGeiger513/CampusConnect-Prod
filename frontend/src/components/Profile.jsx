@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SideNav from './dashboard/SideNav';
 import ProfileCard from './profile/ProfileCard';
 import UserInfoCard from './profile/UserInfoCard';
 import FriendsList from './profile/ProfileFriendsList';
@@ -45,6 +46,9 @@ const Profile = () => {
 
   return (
     <div className="profile-page-container">
+      <div className="sidenav-column">
+        <SideNav />
+      </div>
       <div className="left-column">
         <ProfileCard
           profileImg={profileData.profileImg}
