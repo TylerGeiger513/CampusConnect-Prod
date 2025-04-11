@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import SideNav from './dashboard/SideNav';
+import Header from './common/Header'; 
+import SideNav from './dashboard/SideNav'; 
 import ProfileCard from './profile/ProfileCard';
 import UserInfoCard from './profile/UserInfoCard';
 import FriendsList from './profile/ProfileFriendsList';
@@ -45,31 +46,41 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-page-container">
-      <div className="sidenav-column">
-        <SideNav />
-      </div>
-      <div className="left-column">
-        <ProfileCard
-          profileImg={profileData.profileImg}
-          userName={profileData.userName}
-          major={profileData.major}
-          school={profileData.school}
-        />
-      </div>
-      <div className="right-column">
-        <UserInfoCard
-          fullName={profileData.fullName}
-          userName={profileData.userName}
-          email={profileData.email}
-          school={profileData.school}
-          major={profileData.major}
-          onUpdate={handleInfoUpdate}
-        />
-        <FriendsList
-          friends={friends}
-          onBlockToggle={handleBlockToggle}
-        />
+    <div>
+      {/* Header Component */}
+      <Header />
+      
+      <div className="profile-page-container">
+        {/* Side Nav Column */}
+        <div className="sidenav-column">
+          <SideNav />
+        </div>
+        
+        {/* Profile Card Column */}
+        <div className="left-column">
+          <ProfileCard
+            profileImg={profileData.profileImg}
+            userName={profileData.userName}
+            major={profileData.major}
+            school={profileData.school}
+          />
+        </div>
+        
+        {/* User Info and Friends List Column */}
+        <div className="right-column">
+          <UserInfoCard
+            fullName={profileData.fullName}
+            userName={profileData.userName}
+            email={profileData.email}
+            school={profileData.school}
+            major={profileData.major}
+            onUpdate={handleInfoUpdate}
+          />
+          <FriendsList
+            friends={friends}
+            onBlockToggle={handleBlockToggle}
+          />
+        </div>
       </div>
     </div>
   );
