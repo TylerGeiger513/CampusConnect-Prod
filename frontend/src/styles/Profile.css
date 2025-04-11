@@ -8,6 +8,11 @@
     font-family: Arial, sans-serif;
   }
   
+  .side-nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
   
   .left-column {
     flex: 2;
