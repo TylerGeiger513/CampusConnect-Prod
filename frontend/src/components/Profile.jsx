@@ -7,7 +7,7 @@ import FriendsList from './profile/ProfileFriendsList';
 import '../styles/Profile.css';
 
 const Profile = () => {
-  // State for user data
+  // State for user data remains unchanged.
   const [profileData, setProfileData] = useState({
     profileImg: 'https://media.istockphoto.com/id/1587604256/photo/portrait-lawyer-and-black-woman-with-tablet-smile-and-happy-in-office-workplace-african.jpg?s=612x612&w=0&k=20&c=n9yulMNKdIYIQC-Qns8agFj6GBDbiKyPRruaUTh4MKs=',
     userName: 'Joe Schmo',
@@ -17,14 +17,7 @@ const Profile = () => {
     major: 'Computer Science',
   });
 
-  // State for user’s friends
-  const [friends, setFriends] = useState([
-    { id: 1, name: 'Random1', blocked: false },
-    { id: 2, name: 'Random2', blocked: false },
-    { id: 3, name: 'Random3', blocked: true },
-  ]);
-
-  // Update user info when user clicks "Save" in UserInfoCard
+  // This function handles profile info updates.
   const handleInfoUpdate = (newInfo) => {
     setProfileData({
       ...profileData,
@@ -36,21 +29,10 @@ const Profile = () => {
     });
   };
 
-  // Toggle blocked/unblocked status for a friend
-  const handleBlockToggle = (friendId) => {
-    setFriends((prev) =>
-      prev.map((f) =>
-        f.id === friendId ? { ...f, blocked: !f.blocked } : f
-      )
-    );
-  };
-
   return (
     <div>
-      {/* Header at the top */}
       <Header />
 
-      {/* Grid container for the navbar and main content */}
       <div className="profile-page-container">
         <div className="sidenav-column">
           <SideNav />
@@ -73,10 +55,8 @@ const Profile = () => {
               major={profileData.major}
               onUpdate={handleInfoUpdate}
             />
-            <FriendsList
-              friends={friends}
-              onBlockToggle={handleBlockToggle}
-            />
+            {/* FriendsList now handles its own API calls and state */}
+            <FriendsList />
           </div>
         </div>
       </div>
