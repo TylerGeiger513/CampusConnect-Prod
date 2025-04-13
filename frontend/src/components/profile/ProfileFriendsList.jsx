@@ -1,152 +1,153 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles/ProfileFriendsList.css';
+import '../../styles/FriendsList.css';
+import {
+  getFriendsList,
+  getIncomingRequests,
+  sendFriendRequest,
+  acceptFriendRequest,
+  denyFriendRequest,
+} from '../../utils/friendsHandler';
 
-const FriendsList = () => {
+const FriendsList = ({ isCollapsed, toggleCollapse, toggleFriendChannel, activeChannel }) => {
   const [friends, setFriends] = useState([]);
-  const [popupFriend, setPopupFriend] = useState(null);
-  const [newFriendName, setNewFriendName] = useState('');
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [addFriendInput, setAddFriendInput] = useState('');
 
-  // Fetch the friend list from the backend.
-  const fetchFriends = async () => {
-    try {
-      const res = await fetch('/friends/friendsList', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Include authentication headers if needed.
-        },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        // Expected response format: { friends: [...] }
-        setFriends(data.friends);
-      } else {
-        console.error('Failed to fetch friends list');
-      }
-    } catch (err) {
-      console.error('Error fetching friends:', err);
-    }
-  };
-
-  // Load friends on component mount.
   useEffect(() => {
-    fetchFriends();
+    const fetchData = async () => {
+      try {
+        const friendsData = await getFriendsList();
+        const requestsData = await getIncomingRequests();
+        setFriends(friendsData.friends || []);
+        setFriendRequests(requestsData.requests || []);
+      } catch (error) {
+        console.error('Error fetching friends data:', error);
+      }
+    };
+    fetchData();
   }, []);
 
-  // Click handler for showing the confirmation popup.
-  const handleFriendClick = (friend) => {
-    setPopupFriend(friend);
-  };
-
-  // When confirmed, toggle block status for the friend.
-  const handleConfirm = async () => {
-    if (popupFriend) {
-      try {
-        if (popupFriend.blocked) {
-          const res = await fetch('/friends/unblock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ target: popupFriend.id }),
-          });
-          if (!res.ok) console.error('Failed to unblock friend');
-        } else {
-          const res = await fetch('/friends/block', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ target: popupFriend.id }),
-          });
-          if (!res.ok) console.error('Failed to block friend');
-        }
-      } catch (err) {
-        console.error('Error toggling block status:', err);
-      }
-      setPopupFriend(null);
-      fetchFriends(); // Refresh the friend list.
+  const handleSendRequest = async () => {
+    if (!addFriendInput) return;
+    try {
+      await sendFriendRequest(addFriendInput);
+      setAddFriendInput('');
+      const requestsData = await getIncomingRequests();
+      setFriendRequests(requestsData.requests || []);
+    } catch (error) {
+      console.error('Error sending friend request:', error);
     }
   };
 
-  const handleClosePopup = () => {
-    setPopupFriend(null);
+  const handleAccept = async (target) => {
+    try {
+      await acceptFriendRequest(target);
+      setFriendRequests((prev) => prev.filter((req) => req.id !== target));
+      const friendsData = await getFriendsList();
+      setFriends(friendsData.friends || []);
+    } catch (error) {
+      console.error('Error accepting friend request:', error);
+    }
   };
 
-  // Update the input state when user types a friend name.
-  const handleInputChange = (e) => {
-    setNewFriendName(e.target.value);
-  };
-
-  // Send a friend request using the API.
-  const handleAddFriend = async () => {
-    if (newFriendName.trim() !== '') {
-      try {
-        const res = await fetch('/friends/request', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // Passing the friend name as the target (adjust if your API expects an ID).
-          body: JSON.stringify({ target: newFriendName.trim() }),
-        });
-        if (res.ok) {
-          console.log('Friend request sent.');
-          setNewFriendName('');
-          fetchFriends(); // Refresh friend list after sending the request.
-        } else {
-          console.error('Failed to send friend request.');
-        }
-      } catch (err) {
-        console.error('Error sending friend request:', err);
-      }
+  const handleDeny = async (target) => {
+    try {
+      await denyFriendRequest(target);
+      setFriendRequests((prev) => prev.filter((req) => req.id !== target));
+    } catch (error) {
+      console.error('Error denying friend request:', error);
     }
   };
 
   return (
-    <div className="friends-list">
-      <h2>Friends</h2>
-      
-      {/* Render the list of friends */}
-      {friends.map((friend) => (
+    <div className={`friends-list ${isCollapsed ? 'collapsed' : 'open'}`}>
+      <div className="friends-header">
         <div
-          key={friend.id}
-          className={`friend-item ${friend.blocked ? 'blocked' : ''}`}
-          onClick={() => handleFriendClick(friend)}
+          id="friendsMenu"
+          className={isCollapsed ? '' : 'open'}
+          onClick={toggleCollapse}
         >
-          {friend.name}
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      ))}
-
-      {/* Add Friend Section */}
-      <div className="add-friend-section">
-        <input
-          type="text"
-          className="add-friend-input"
-          value={newFriendName}
-          onChange={handleInputChange}
-          placeholder="Enter friend's name"
-        />
-        <button className="add-friend-btn" onClick={handleAddFriend}>
-          Add Friend
-        </button>
+        { !isCollapsed && <h3>Friends</h3> }
       </div>
-
-      {/* Confirmation Popup for blocking/unblocking */}
-      {popupFriend && (
-        <div className="confirm-popup">
-          <div className="confirm-content">
-            <p>
-              {popupFriend.blocked
-                ? `Unblock ${popupFriend.name}?`
-                : `Block ${popupFriend.name}?`}
-            </p>
-            <div className="popup-buttons">
-              <button className="confirm-btn" onClick={handleConfirm}>
-                Yes
-              </button>
-              <button className="confirm-btn" onClick={handleClosePopup}>
-                No
-              </button>
+      {!isCollapsed && (
+        <>
+          <div className="friends-add">
+            <input
+              type="text"
+              value={addFriendInput}
+              onChange={(e) => setAddFriendInput(e.target.value)}
+              placeholder="Add friend..."
+            />
+            <button onClick={handleSendRequest}>SEND</button>
+          </div>
+          <div className="friends-section">
+            <div className="section-label">Friend Requests</div>
+            <div className="friends-body">
+              {friendRequests.length === 0 ? (
+                <div className="empty-message">
+                  You do not have any friend requests :(
+                </div>
+              ) : (
+                <ul>
+                  {friendRequests.map((req) => (
+                    <li key={req.id} className="friend-item">
+                      <div className="friend-pfp">
+                        {req.username.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="friend-name">{req.username}</span>
+                      <div className="friend-actions">
+                        <button
+                          className="accept-button"
+                          onClick={() => handleAccept(req.id)}
+                        >
+                          Accept
+                        </button>
+                        <button
+                          className="deny-button"
+                          onClick={() => handleDeny(req.id)}
+                        >
+                          Deny
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
-        </div>
+          <div className="friends-section">
+            <div className="section-label">Friends</div>
+            <div className="friends-body">
+              {friends.length === 0 ? (
+                <div className="empty-message">
+                  You do not have any friends :(
+                </div>
+              ) : (
+                <ul>
+                  {friends.map((friend) => (
+                    <li
+                      key={friend.id}
+                      className={`friend-item ${activeChannel && activeChannel.friendId === friend.id ? 'active' : ''}`}
+                      onClick={() => toggleFriendChannel(friend.id)}
+                    >
+                      <div className="friend-pfp">
+                        {friend.username.charAt(0).toUpperCase()}
+                      </div>
+                      <span className="friend-name">{friend.username}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
