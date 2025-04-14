@@ -32,7 +32,6 @@ const Profile = () => {
   return (
     <div>
       <Header />
-
       <div className="profile-page-container">
         <div className="sidenav-column">
           <SideNav />
@@ -47,16 +46,21 @@ const Profile = () => {
             />
           </div>
           <div className="right-column">
-            <UserInfoCard
-              fullName={profileData.fullName}
-              userName={profileData.userName}
-              email={profileData.email}
-              school={profileData.school}
-              major={profileData.major}
-              onUpdate={handleInfoUpdate}
-            />
-            {/* FriendsList now handles its own API calls and state */}
-            <FriendsList />
+            <div className="user-info-friends">
+              <div className="user-info-card-wrapper">
+                <UserInfoCard
+                  fullName={profileData.fullName}
+                  userName={profileData.userName}
+                  email={profileData.email}
+                  school={profileData.school}
+                  major={profileData.major}
+                  onUpdate={handleInfoUpdate}
+                />
+              </div>
+              <div className="friends-list-wrapper">
+                <FriendsList />
+              </div>
+            </div>
           </div>
         </div>
       </div>
