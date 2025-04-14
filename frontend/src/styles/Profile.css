@@ -1,5 +1,5 @@
 .profile-page-container {
-    display: grid;
+    display: flex;
     grid-template-columns: auto 1fr;
     height: 100%;       
     overflow: hidden;
@@ -26,7 +26,7 @@
   }
 
   .profile-content {
-    display: grid;
+    display: flex;
     grid-template-columns: 2fr 3fr;  
     gap: 16px;
     padding: 32px;       
