@@ -6,75 +6,22 @@
   margin-top: 24px;
 }
 
-.friend-item {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--surface-a50);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.friend-item:last-child {
-  border-bottom: none;
-}
-
-.friend-item:hover {
-  background-color: var(--surface-a50);
-}
-
-/* Style for blocked users: faded and crossed out */
-.blocked {
-  text-decoration: line-through;
-  opacity: 0.5;
-}
-
-/* Popup overlay */
-.confirm-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+.friends-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  margin-bottom: 16px;
 }
 
-/* Popup content */
-.confirm-content {
-  background-color: var(--surface-a40);
-  padding: 16px;
-  border-radius: 8px;
-  text-align: center;
+.friends-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
-.popup-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 12px;
-}
 
-.confirm-btn {
-  background-color: var(--surface-a40);
-  border: none;
-  color: var(--color-text);
-  padding: 8px 16px;
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
-}
-
-.confirm-btn:hover {
-  background-color: var(--surface-a30);
-}
-
-/* Add Friend Section */
 .add-friend-section {
-  margin-top: 16px;
   display: flex;
   gap: 8px;
+  margin-bottom: 16px;
 }
 
 .add-friend-input {
@@ -98,5 +45,148 @@
 }
 
 .add-friend-btn:hover {
+  background-color: var(--surface-a30);
+}
+
+
+.friends-section {
+  margin-bottom: 24px;
+}
+
+.section-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--color-text);
+}
+
+
+.friends-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.friend-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--surface-a50);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.friend-item:last-child {
+  border-bottom: none;
+}
+
+.friend-item:hover {
+  background-color: var(--surface-a50);
+}
+
+.friend-pfp {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+
+.friend-name {
+  flex-grow: 1;
+  font-weight: 500;
+}
+
+.friend-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.accept-button,
+.deny-button {
+  background: transparent;
+  border: 1px solid var(--surface-a40);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.accept-button:hover {
+  background-color: var(--surface-a40);
+  color: var(--color-text);
+}
+
+.deny-button {
+  border-color: #f44336;
+  color: #f44336;
+}
+
+.deny-button:hover {
+  background-color: #f44336;
+  color: #fff;
+}
+
+
+.empty-message {
+  font-size: 0.8rem;
+  color: var(--color-text);
+  font-style: italic;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.blocked {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.confirm-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.confirm-content {
+  background-color: var(--surface-a40);
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.confirm-btn {
+  background-color: var(--surface-a40);
+  border: none;
+  color: var(--color-text);
+  padding: 8px 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.confirm-btn:hover {
   background-color: var(--surface-a30);
 }

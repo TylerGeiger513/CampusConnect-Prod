@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../../styles/FriendsList.css';
+import '../../styles/ProfileFriendsList.css';
 import {
   getFriendsList,
   getIncomingRequests,
@@ -78,7 +78,7 @@ const FriendsList = ({ isCollapsed, toggleCollapse, toggleFriendChannel, activeC
       </div>
       {!isCollapsed && (
         <>
-          <div className="friends-add">
+          <div className="add-friend-section">
             <input
               type="text"
               value={addFriendInput}
