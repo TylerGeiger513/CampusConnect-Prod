@@ -1,0 +1,12 @@
+# Explicitly deny all ingress and egress traffic to all pods in the default namespace
+# Network policies such as allow-backend-to-databases.yaml, allow-ingress-to-backend.yaml, and allow-ingress-to-frontend.yaml will be applied to allow specific traffic
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: default  
+spec:
+  podSelector: {}  
+  policyTypes:
+    - Ingress
+    - Egress
