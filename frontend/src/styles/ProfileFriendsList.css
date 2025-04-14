@@ -4,6 +4,9 @@
   border-radius: 8px;
   color: var(--color-text);
   flex: auto;
+  margin-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .friends-header {
@@ -189,4 +192,14 @@
 
 .confirm-btn:hover {
   background-color: var(--surface-a30);
+}
+
+.horizontal-friends {
+  display: flex;
+  gap: 16px;
+}
+
+.friend-requests,
+.friends-list-col {
+  flex: 1;
 }
