@@ -3,7 +3,7 @@
     grid-template-columns: auto 1fr;
     height: 100%;       
     overflow: hidden;
-    background-color: var(--surface-a40);;
+    background-color: var(--surface-a40);
     color: #fff;
     font-family: Arial, sans-serif;
   }
