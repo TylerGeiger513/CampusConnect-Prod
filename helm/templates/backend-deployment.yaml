@@ -1,29 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: campus-connect-backend
+  name: {{ .Values.backend.appName }}
+  namespace: {{ .Values.global.namespace | default "default" }}
   labels:
-    app: campus-connect-backend
+    app: {{ .Values.backend.appName }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.backend.replicas }}
   selector:
     matchLabels:
-      app: campus-connect-backend
+      app: {{ .Values.backend.appName }}
   template:
     metadata:
       labels:
-        app: campus-connect-backend
+        app: {{ .Values.backend.appName }}
       annotations:
         keel.sh/policy: force
-        keel.sh/trigger: poll      
+        keel.sh/trigger: poll
         keel.sh/pollSchedule: "@every 1m"
     spec:
       containers:
       - name: backend
         image: "{{ .Values.backend.image }}:{{ .Values.tagPolicy }}"
-        imagePullPolicy: Always
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
         ports:
-        - containerPort: 3000
+        - containerPort: {{ .Values.backend.service.port }}
         envFrom:
         - configMapRef:
-            name: campus-connect-config
+            name: {{ .Values.configMap.name }}
+        - secretRef:
+            name: {{ .Values.configMap.name }}-secrets 

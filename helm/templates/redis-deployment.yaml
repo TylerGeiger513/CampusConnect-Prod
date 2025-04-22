@@ -1,21 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis
+  name: {{ .Values.database.redis.appName }}
+  namespace: {{ .Values.global.namespace | default "default" }}
   labels:
-    app: redis
+    app: {{ .Values.database.redis.appName }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.database.redis.replicas }}
   selector:
     matchLabels:
-      app: redis
+      app: {{ .Values.database.redis.appName }}
   template:
     metadata:
       labels:
-        app: redis
+        app: {{ .Values.database.redis.appName }}
     spec:
       containers:
-      - name: redis
-        image: redis:alpine
+      - name: {{ .Values.database.redis.appName }}
+        image: {{ .Values.database.redis.image }}
         ports:
-        - containerPort: 6379
+        - containerPort: {{ .Values.database.redis.port }}
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.configMap.name }}-secrets 
+              key: REDIS_PASSWORD

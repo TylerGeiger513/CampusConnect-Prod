@@ -1,11 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-ingress-to-backend
+  name: {{ .Values.networkPolicies.allowIngressToBackend.name }}
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   podSelector:
     matchLabels:
-      app: campus-connect-backend
+      app: {{ .Values.backend.appName }}
   policyTypes:
     - Ingress
   ingress:
@@ -13,3 +14,4 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
+         

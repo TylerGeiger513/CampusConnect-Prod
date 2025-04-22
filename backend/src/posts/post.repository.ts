@@ -21,12 +21,14 @@ export class PostRepository {
      * Creates a new post.
      * @param dto Partial post data.
      * @param senderUsername The sender's username.
+     * @param senderMajor The sender's major.
      * @returns The created post as a plain object.
      */
-    async createPost(dto: Partial<IPost>, senderUsername: string): Promise<IPost> {
+    async createPost(dto: Partial<IPost>, senderUsername: string, senderMajor?: string): Promise<IPost> {
         const created = new this.postModel({
             ...dto,
             senderName: senderUsername,
+            senderMajor: senderMajor, // Save sender's major
         });
         const saved = await created.save();
         const plain = saved.toObject() as IPost;
@@ -45,8 +47,10 @@ export class PostRepository {
         const posts = await this.postModel.find({ campusId }).sort({ createdAt: -1 }).lean().exec();
         return Promise.all(posts.map(async post => {
             const user = await this.usersService.findUserByIdentifier({ id: post.senderId });
-            const postIsLiked = post.likes.includes(post.senderId);
-            return { ...post, _id: post._id.toString(), liked: postIsLiked };
+            const postIsLiked = post.likes.includes(post.senderId); // Note: This logic seems incorrect, should check against the *requesting* user's ID, not senderId
+            // Ensure senderMajor is included, falling back if user or major is missing
+            const senderMajor = user?.major || undefined;
+            return { ...post, _id: post._id.toString(), liked: postIsLiked, senderMajor: senderMajor };
         }));
     }
 

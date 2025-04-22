@@ -4,6 +4,7 @@ import { SignupDto } from './dtos/signup.dto';
 import { LoginDto } from './dtos/login.dto';
 import { SessionService } from '../session/session.service';
 import { Request } from 'express';
+import { UpdateUserDto } from './dtos/update.dto';
 
 /**
  * @class AuthService
@@ -71,4 +72,13 @@ export class AuthService {
     const user = await this.usersService.findUserByIdentifier(dto);
     return user;
   }
+
+  async updateUserProfile(userId: string, update: UpdateUserDto): Promise<any> {
+    const user = await this.usersService.updateUser(userId, update);
+    if (!user) {
+      throw new Error('Failed to update user.');
+    }
+    return { message: 'Profile updated successfully', user };
+  }
+
 }

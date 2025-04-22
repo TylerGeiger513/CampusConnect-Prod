@@ -2,7 +2,7 @@
   background-color: var(--surface-a30);
   padding: 32px;
   border-radius: 8px;
-  text-align: center;
+  text-align: center; /* Ensure text below avatar is centered */
   color: var(--color-text);
   width: 400px;
   height: 585px;
@@ -12,23 +12,47 @@
 }
 
 .profile-image {
-  width: 200px;
-  height: 200px;
+  width: 100px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 16px;
-  border: 3px solid var(--surface-a50);
+  margin: 0 auto 15px auto; /* Center image and add space below */
+  display: block; /* Ensure margin auto works */
+}
+
+/* Styles for the default avatar when profileImg is null */
+.default-avatar {
+  display: flex; /* Use flexbox to center the initial */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  background-color: var(--surface-a10); /* Use surface-a10 background */
+  color: var(--color-text); /* Text color for the initial */
+  font-size: 2.5em; /* Adjust size of the initial */
+  font-weight: bold;
+  /* Ensure width, height, border-radius, and margin match .profile-image */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto 15px auto;
 }
 
 .profile-username {
   margin: 0;
   font-size: 26px;
   padding-top: 20px;
+  margin-top: 0; /* Adjust spacing if needed */
 }
 
 .profile-major,
-.profile-school {
+.profile-campus { /* Apply styles to campus paragraph */
   margin: 8px 0;
   font-size: 18px;
   color: var(--color-text-alt);
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+/* Rename .profile-school to .profile-campus if needed, or just use the shared style above */
+.profile-campus {
+  /* Add specific styles for campus if different from major */
 }

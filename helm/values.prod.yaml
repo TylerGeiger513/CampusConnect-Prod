@@ -1,19 +1,68 @@
+global:
+  namespace: default # Default namespace
 
-
-
-
-domain: ""  
-tagPolicy: "latest" 
+domain: ""
+tagPolicy: "latest"
 imagePullPolicy: Always
 
 backend:
+  appName: campus-connect-backend
   image: docker.io/tylergeiger/campus-connect-backend
+  replicas: 1
   service:
+    name: campus-connect-backend-service
     type: ClusterIP
     port: 3000
 
 frontend:
+  appName: campus-connect-frontend
   image: docker.io/tylergeiger/campus-connect-frontend
+  replicas: 1
   service:
+    name: campus-connect-frontend-service
     type: ClusterIP
     port: 80
+
+database:
+  mongo:
+    appName: mongo
+    image: mongo:4.4
+    replicas: 1
+    port: 27017
+    pvcName: mongo-pvc
+    storageSize: 5Gi
+    volumeName: mongo-storage
+    mountPath: /data/db_mount
+  redis:
+    appName: redis
+    image: redis:alpine
+    replicas: 1
+    port: 6379
+
+ingress:
+  name: campus-connect-ingress
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # Add other annotations if needed
+
+configMap:
+  name: campus-connect-config
+
+networkPolicies:
+  defaultDeny:
+    name: default-deny-all
+  allowIngressToFrontend:
+    name: allow-ingress-to-frontend
+  allowIngressToBackend:
+    name: allow-ingress-to-backend
+  allowBackendToDatabases:
+    name: allow-backend-to-databases
+  allowBackendEgressToDatabases:
+    name: allow-backend-egress-to-databases
+
+# Add secrets section - USE A SECURE METHOD TO POPULATE THESE FOR PRODUCTION
+secrets:
+  encryptionKey: "replaced-with-prod-encryption-key" # Example: Generate a strong random key
+  redisPassword: "replaced-with-prod-redis-password" # Example: Generate a strong random password
+  sessionSecret: "replaced-with-prod-session-secret" # Example: Generate a strong random key

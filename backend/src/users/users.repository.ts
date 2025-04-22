@@ -14,6 +14,7 @@ export interface IUsersRepository {
     findByEmail(email: string): Promise<IUser | null>;
     findByIdentifier(identifier: { id?: string; email?: string; username?: string }): Promise<IUser | null>;
     updateUser(userId: string, update: Partial<IUser>): Promise<IUser>;
+    findAllExcept(userId: string): Promise<IUser[]>;
 }
 
 /**
@@ -187,4 +188,25 @@ export class UsersRepository implements IUsersRepository {
         return { ...updatedUser, _id: updatedUser._id.toString() } as IUser;
     }
 
+    async findAllExcept(userId: string): Promise<IUser[]> {
+        const docs = await this.userModel.find({ _id: { $ne: userId } })
+            .populate('campus', 'name')
+            .lean()
+            .exec();
+
+        return docs.map(doc => {
+            // ...convert _id and campus like other methods...
+            const u: any = { ...doc };
+            u._id = u._id.toString();
+            if (u.campus && (u.campus as any)._id) {
+                u.campus = {
+                    id: (u.campus as any)._id.toString(),
+                    name: (u.campus as any).name,
+                };
+            } else if (u.campus) {
+                u.campus = u.campus.toString();
+            }
+            return u as IUser;
+        });
+    }
 }

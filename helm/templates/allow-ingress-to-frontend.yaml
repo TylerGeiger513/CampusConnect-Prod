@@ -1,11 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-ingress-to-frontend
+  name: {{ .Values.networkPolicies.allowIngressToFrontend.name }}
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   podSelector:
     matchLabels:
-      app: campus-connect-frontend
+      app: {{ .Values.frontend.appName }}
   policyTypes:
     - Ingress
   ingress:
@@ -13,3 +14,4 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
+         

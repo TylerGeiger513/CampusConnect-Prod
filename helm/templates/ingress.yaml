@@ -1,14 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: campus-connect-ingress
-  namespace: default
+  name: {{ .Values.ingress.name }}
+  namespace: {{ .Values.global.namespace | default "default" }}
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+{{- with .Values.ingress.annotations }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
-  ingressClassName: "nginx"
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
-    - host: "{{ .Values.domain }}"  
+    - host: "{{ .Values.domain }}"
       http:
         paths:
           # Frontend static files
@@ -16,42 +18,42 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: campus-connect-frontend-service
+                name: {{ .Values.frontend.service.name }}
                 port:
-                  number: 80
+                  number: {{ .Values.frontend.service.port }}
 
           # Backend API
           - path: /api/
             pathType: Prefix
             backend:
               service:
-                name: campus-connect-backend-service
+                name: {{ .Values.backend.service.name }}
                 port:
-                  number: 3000
+                  number: {{ .Values.backend.service.port }}
 
           # WebSockets (notifications)
           - path: /notifications/
             pathType: Prefix
             backend:
               service:
-                name: campus-connect-backend-service
+                name: {{ .Values.backend.service.name }}
                 port:
-                  number: 3000
+                  number: {{ .Values.backend.service.port }}
 
           # WebSockets (channels)
           - path: /channels/
             pathType: Prefix
             backend:
               service:
-                name: campus-connect-backend-service
+                name: {{ .Values.backend.service.name }}
                 port:
-                  number: 3000
+                  number: {{ .Values.backend.service.port }}
 
           # WebSockets (posts)
           - path: /posts/
             pathType: Prefix
             backend:
               service:
-                name: campus-connect-backend-service
+                name: {{ .Values.backend.service.name }}
                 port:
-                  number: 3000
+                  number: {{ .Values.backend.service.port }}

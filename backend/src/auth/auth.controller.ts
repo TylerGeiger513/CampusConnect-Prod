@@ -6,6 +6,7 @@ import { AuthGuard } from './auth.guard';
 import { Request } from 'express';
 import { CurrentUser } from './current-user.decorator';
 import { ExistsDto } from './dtos/exists.dto';
+import { UpdateUserDto } from './dtos/update.dto';
 
 
 @Controller('auth')
@@ -67,6 +68,23 @@ export class AuthController {
     } else {
       // make a new profile object without the password field
       const { password, ...profileWithoutPassword } = profile;
+      return profileWithoutPassword;
+    }
+  }
+
+  
+  @Post('update')
+  @UseGuards(AuthGuard)
+  async updateProfile(@CurrentUser() userId: string, @Body() dto: UpdateUserDto): Promise<any> {
+    if (!userId) {
+      throw new UnauthorizedException('No active session.');
+    }
+    const updatedProfile = await this.authService.updateUserProfile(userId, dto);
+    if (!updatedProfile) {
+      throw new UnauthorizedException('Profile not found.');
+    } else {
+      // make a new profile object without the password field
+      const { password, ...profileWithoutPassword } = updatedProfile;
       return profileWithoutPassword;
     }
   }

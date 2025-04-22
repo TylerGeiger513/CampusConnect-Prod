@@ -1,11 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-backend-egress-to-databases
+  name: {{ .Values.networkPolicies.allowBackendEgressToDatabases.name }}
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   podSelector:
     matchLabels:
-      app: campus-connect-backend
+      app: {{ .Values.backend.appName }}
   policyTypes:
     - Egress
   egress:
@@ -15,10 +16,10 @@ spec:
               - key: app
                 operator: In
                 values:
-                  - redis
-                  - mongo
+                  - {{ .Values.database.redis.appName }}
+                  - {{ .Values.database.mongo.appName }}
       ports:
         - protocol: TCP
-          port: 6379  
+          port: {{ .Values.database.redis.port }}
         - protocol: TCP
-          port: 27017  
+          port: {{ .Values.database.mongo.port }}

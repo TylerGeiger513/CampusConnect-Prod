@@ -155,3 +155,17 @@ export const unblockUser = async (target) => {
     throw error;
   }
 };
+
+/**
+ * Retrieves friend suggestions.
+ * Expects the backend to return an object like { suggestions: [...] }.
+ */
+export const getFriendSuggestions = async () => {
+  try {
+    const response = await api.post('/friends/suggestions');
+    return response.data.suggestions;
+  } catch (error) {
+    console.error('Error getting friend suggestions:', error);
+    throw error;
+  }
+};

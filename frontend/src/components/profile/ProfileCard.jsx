@@ -1,13 +1,26 @@
 import React from 'react';
 import '../../styles/ProfileCard.css';
 
-const ProfileCard = ({ profileImg, userName, major, school }) => {
+// Changed prop 'school' to 'campus'
+const ProfileCard = ({ profileImg, username, major, campus }) => {
+  const getInitials = (name) => {
+    return name ? name.charAt(0).toUpperCase() : '?';
+  };
+
   return (
     <div className="profile-card">
-      <img src={profileImg} alt="Profile" className="profile-image" />
-      <h3 className="profile-username">{userName}</h3>
+      {profileImg ? (
+        <img src={profileImg} alt="Profile" className="profile-image" />
+      ) : (
+        // Default avatar div when no image
+        <div className="profile-image default-avatar">
+          <span>{getInitials(username)}</span>
+        </div>
+      )}
+      <h3 className="profile-username">{username}</h3>
       <p className="profile-major">{major}</p>
-      <p className="profile-school">{school}</p>
+      {/* Display campus name */}
+      <p className="profile-campus">{campus}</p>
     </div>
   );
 };

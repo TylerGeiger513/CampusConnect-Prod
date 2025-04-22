@@ -36,7 +36,7 @@ const Post = ({ post, onLike }) => {
                 {renderProfileImage()}
                 <div className="poster-info">
                     <h2>{post.senderName || 'Anonymous'}</h2>
-                    <p className="department">{post.department || 'Student'}</p>
+                    <p className="department">{post.senderMajor || 'Student'}</p>
                 </div>
             </div>
 

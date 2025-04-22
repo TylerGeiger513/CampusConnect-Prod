@@ -8,6 +8,7 @@ import Header from '../common/Header';
 import '../../styles/Dashboard.css';
 import useChannel from '../../hooks/useChannel';
 import SideNav from './SideNav';
+
 const Dashboard = () => {
   const [isFriendsCollapsed, setIsFriendsCollapsed] = useState(false);
   const {
@@ -23,7 +24,7 @@ const Dashboard = () => {
     <>
       <Header />
       <div className="dashboard-container">
-        <SideNav />
+        <SideNav currentPage="dashboard" />
         <DashboardContent
           activeChannel={activeChannel}
           messages={messages}

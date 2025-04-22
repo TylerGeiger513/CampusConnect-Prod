@@ -1,28 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongo
+  name: {{ .Values.database.mongo.appName }}
+  namespace: {{ .Values.global.namespace | default "default" }}
   labels:
-    app: mongo
+    app: {{ .Values.database.mongo.appName }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.database.mongo.replicas }}
   selector:
     matchLabels:
-      app: mongo
+      app: {{ .Values.database.mongo.appName }}
   template:
     metadata:
       labels:
-        app: mongo
+        app: {{ .Values.database.mongo.appName }}
     spec:
       containers:
-      - name: mongo
-        image: mongo:4.4
+      - name: {{ .Values.database.mongo.appName }}
+        image: {{ .Values.database.mongo.image }}
         ports:
-        - containerPort: 27017
+        - containerPort: {{ .Values.database.mongo.port }}
         volumeMounts:
-        - name: mongo-storage
-          mountPath: /data/db_mount
+        - name: {{ .Values.database.mongo.volumeName }}
+          mountPath: {{ .Values.database.mongo.mountPath }}
       volumes:
-      - name: mongo-storage
+      - name: {{ .Values.database.mongo.volumeName }}
         persistentVolumeClaim:
-          claimName: mongo-pvc
+          claimName: {{ .Values.database.mongo.pvcName }}

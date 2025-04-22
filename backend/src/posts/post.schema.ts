@@ -14,6 +14,7 @@ export interface IPost {
     campusId: string;
     senderId: string;
     senderName?: string;
+    senderMajor?: string; // Add senderMajor
     content: string;
     hashtags: string[];  
     likes: string[]; // Array of user IDs who liked the post.
@@ -35,6 +36,9 @@ export class Post {
 
     @Prop()
     senderName?: string;
+
+    @Prop() // Add senderMajor property
+    senderMajor?: string;
 
     @Prop({ required: true })
     content!: string;

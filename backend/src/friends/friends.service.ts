@@ -219,4 +219,57 @@ export class FriendsService {
         }));
         return blockedUsers;
     }
+
+    async suggestFriends(currentUserId: string): Promise<{ id: string; username: string; message: string }[]> {
+        const me = await this.getUser(currentUserId);
+        const all = await this.usersRepository.findAllExcept(currentUserId);
+
+        // exclude existing relations
+        const excluded = new Set([
+            ...(me.friends || []),
+            ...(me.sentFriendRequests || []),
+            ...(me.friendRequests || []),
+            ...(me.blockedUsers || []),
+        ]);
+        const candidates = all.filter(u => !excluded.has(u._id as string));
+
+        // compute score and message
+        const scored = candidates.map(u => {
+            const mutual = (me.friends || []).filter(f => u.friends?.includes(f)).length;
+            const sameCampus = (
+                typeof u.campus === 'object' ? (u.campus as any).id : u.campus
+            ) === (
+                typeof me.campus === 'object' ? (me.campus as any).id : me.campus
+            );
+            const sameMajor = !!(u.major && u.major === me.major);
+            let score = mutual * 3 + (sameCampus ? 2 : 0) + (sameMajor ? 1 : 0);
+
+            let message: string;
+            if (mutual > 0) {
+                message = `${mutual} mutual friends`;
+            } else if (sameCampus && u.major) {
+                message = `${u.major} at ${(u.campus as any).name}`;
+            } else if (sameMajor) {
+                message = `${u.major} at ${(u.campus as any).name}`;
+            } else {
+                message = `${u.major || 'Student'} at ${(u.campus as any).name}`;
+            }
+
+            return { user: u, score, message };
+        });
+
+        // pick top 6
+        return scored
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 6)
+            .map(s => ({
+                id: s.user._id as string,
+                username: s.user.username,
+                fullName: s.user.fullName || undefined,
+                campus: s.user.campus,
+                major: s.user.major || undefined,
+                score: s.score,
+                message: s.message ? s.message : `${s.user.major || 'Student'} at ${(s.user.campus as any).name}`,
+            }));
+    }
 }

@@ -1,19 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-backend-to-databases
+  name: {{ .Values.networkPolicies.allowBackendToDatabases.name }}
+  namespace: {{ .Values.global.namespace | default "default" }}
 spec:
   podSelector:
     matchExpressions:
       - key: app
         operator: In
         values:
-          - redis
-          - mongo
+          - {{ .Values.database.redis.appName }}
+          - {{ .Values.database.mongo.appName }}
   policyTypes:
     - Ingress
   ingress:
     - from:
         - podSelector:
             matchLabels:
-              app: campus-connect-backend
+              app: {{ .Values.backend.appName }}

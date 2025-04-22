@@ -40,7 +40,8 @@ export class PostService {
             throw new ForbiddenException('You can only post within your campus.');
         }
 
-        const post = await this.postRepository.createPost(dto, user.username);
+        // Pass user's major to the repository
+        const post = await this.postRepository.createPost(dto, user.username, user.major);
         this.eventEmitter.emit('post.created', post);
         return post;
     }

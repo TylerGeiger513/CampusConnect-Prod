@@ -19,6 +19,8 @@ export interface IUser {
     blockedUsers?: string[];
     createdAt?: Date;
     updatedAt?: Date;
+    major?: string;
+    fullName?: string;
 }
 
 
@@ -60,6 +62,12 @@ export class User implements IUser {
 
     @Prop({ type: [String], default: [] })
     blockedUsers!: string[];
+
+    @Prop({ required: false, default: "Student" })
+    major?: string;
+
+    @Prop({ type: String, required: false })
+    fullName?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

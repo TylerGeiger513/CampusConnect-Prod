@@ -39,3 +39,19 @@ export const signup = async (userInfo) => {
         throw error;
     }
 };
+
+/**
+ * Updates the user's profile information.
+ * @param {object} profileData - The updated profile data.
+ * @returns {Promise<Object>} The API response data containing the updated user profile.
+ */
+export const updateProfile = async (profileData) => {
+    try {
+        const response = await api.post('/auth/update', profileData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        throw error;
+    }
+};
+
