@@ -1,6 +1,6 @@
 .dashboard-container {
   display: grid;
   grid-template-columns: auto 1fr;
-  height: 100%;
+  flex: 1;            /* fill the remaining space under the header */
   overflow: hidden;
 }

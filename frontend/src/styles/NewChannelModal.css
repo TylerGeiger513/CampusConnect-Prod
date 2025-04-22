@@ -1,0 +1,72 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--surface-a20);
+  padding: 16px;
+  border-radius: 8px;
+  width: 300px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modal-search {
+  padding: 8px;
+  border: 1px solid var(--surface-a30);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background: var(--surface-a10);
+  color: var(--color-text);
+}
+
+.modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-list li {
+  margin-bottom: 4px;
+}
+
+.modal-create-btn {
+  background: var(--primary-a30);
+  color: var(--color-text);
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-create-btn:disabled {
+  background: var(--surface-a30);
+  cursor: not-allowed;
+}
+
+.modal-create-btn:not(:disabled):hover {
+  background: var(--primary-a40);
+}

@@ -1,4 +1,5 @@
 import React from 'react';
+import './FriendSuggestionCard.css';
 
 const FriendSuggestionCard = ({ suggestion, onAdd }) => (
   <div className="suggestion-card">

@@ -101,8 +101,11 @@ export class FriendsController {
     }
 
     @Post('suggestions')
-    async getSuggestions(@CurrentUser() currentUserId: string): Promise<any> {
-        const suggestions = await this.friendsService.suggestFriends(currentUserId);
+    async getSuggestions(
+        @CurrentUser() currentUserId: string,
+        @Body('search') search?: string,
+    ): Promise<any> {
+        const suggestions = await this.friendsService.suggestFriends(currentUserId, search);
         return { suggestions };
     }
 }

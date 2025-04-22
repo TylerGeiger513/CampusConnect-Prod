@@ -220,10 +220,20 @@ export class FriendsService {
         return blockedUsers;
     }
 
-    async suggestFriends(currentUserId: string): Promise<{ id: string; username: string; message: string }[]> {
+    /**
+     * Suggests friends based on mutual friends, campus, and major.
+     * This method computes a score for each user based on the number of mutual friends,
+     * whether they are on the same campus, and if they share the same major.
+     * The highest weighted scores are returned as suggestions. 
+     * @param currentUserId 
+     * @returns 
+     */
+    async suggestFriends(
+        currentUserId: string,
+        search?: string,
+    ): Promise<{ id: string; username: string; message: string }[]> {
         const me = await this.getUser(currentUserId);
-        const all = await this.usersRepository.findAllExcept(currentUserId);
-
+        let candidates = await this.usersRepository.findAllExcept(currentUserId);
         // exclude existing relations
         const excluded = new Set([
             ...(me.friends || []),
@@ -231,7 +241,16 @@ export class FriendsService {
             ...(me.friendRequests || []),
             ...(me.blockedUsers || []),
         ]);
-        const candidates = all.filter(u => !excluded.has(u._id as string));
+        candidates = candidates.filter(u => !excluded.has(u._id as string));
+
+        // if search provided, filter by username or fullName (case-insensitive)
+        if (search?.trim()) {
+            const term = search.trim().toLowerCase();
+            candidates = candidates.filter(u =>
+                u.username.toLowerCase().includes(term) ||
+                (u.fullName?.toLowerCase().includes(term))
+            );
+        }
 
         // compute score and message
         const scored = candidates.map(u => {
@@ -242,17 +261,18 @@ export class FriendsService {
                 typeof me.campus === 'object' ? (me.campus as any).id : me.campus
             );
             const sameMajor = !!(u.major && u.major === me.major);
+            // assign mutual friends a higher weight 
             let score = mutual * 3 + (sameCampus ? 2 : 0) + (sameMajor ? 1 : 0);
 
             let message: string;
             if (mutual > 0) {
                 message = `${mutual} mutual friends`;
             } else if (sameCampus && u.major) {
-                message = `${u.major} at ${(u.campus as any).name}`;
+                message = `${u.major ? u.major + ' major' : 'Student'} at ${(u.campus as any).name}`;
             } else if (sameMajor) {
-                message = `${u.major} at ${(u.campus as any).name}`;
+                message = `${u.major ? u.major + ' major' : 'Student'} at ${(u.campus as any).name}`;
             } else {
-                message = `${u.major || 'Student'} at ${(u.campus as any).name}`;
+                message = `${u.major ? u.major + ' major' : 'Student'} at ${(u.campus as any).name}`;
             }
 
             return { user: u, score, message };
@@ -265,11 +285,7 @@ export class FriendsService {
             .map(s => ({
                 id: s.user._id as string,
                 username: s.user.username,
-                fullName: s.user.fullName || undefined,
-                campus: s.user.campus,
-                major: s.user.major || undefined,
-                score: s.score,
-                message: s.message ? s.message : `${s.user.major || 'Student'} at ${(s.user.campus as any).name}`,
+                message: s.message,
             }));
     }
 }

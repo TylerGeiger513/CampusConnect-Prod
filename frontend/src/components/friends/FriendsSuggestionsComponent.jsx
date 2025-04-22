@@ -1,41 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { getFriendSuggestions, sendFriendRequest } from '../../utils/friendsHandler';
 import FriendSuggestionCard from './FriendSuggestionCard';
-import '../../styles/FriendSuggestions.css';
+import './FriendsSuggestionsComponent.css';
 
 const FriendsSuggestionsComponent = () => {
+  const [search, setSearch] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getFriendSuggestions();
-        setSuggestions(data);
-      } catch (err) {
-        console.error('Error fetching suggestions', err);
-      }
-    })();
-  }, []);
+  const fetch = async () => {
+    try {
+      const data = await getFriendSuggestions(search);
+      setSuggestions(data);
+    } catch (err) { console.error(err); }
+  };
+
+  // refetch when search changes (debounce omitted for brevity)
+  useEffect(() => { fetch(); }, [search]);
 
   const handleAdd = async (id) => {
-    try {
-      await sendFriendRequest(id);
-      setSuggestions(prev => prev.filter(s => s.id !== id));
-    } catch (err) {
-      console.error('Error adding friend', err);
-    }
+    await sendFriendRequest(id);
+    setSuggestions(s => s.filter(x=>x.id!==id));
   };
 
   return (
     <div className="suggestions-container">
       <h4>People you may know</h4>
+      <input
+        className="suggestions-search"
+        type="text"
+        placeholder="Search by name or username…"
+        value={search}
+        onChange={e => setSearch(e.target.value)}
+      />
       <div className="suggestions-grid">
         {suggestions.slice(0,4).map(s => (
-          <FriendSuggestionCard 
-            key={s.id} 
-            suggestion={s} 
-            onAdd={() => handleAdd(s.id)} 
-          />
+          <FriendSuggestionCard key={s.id} suggestion={s} onAdd={()=>handleAdd(s.id)} />
         ))}
       </div>
     </div>

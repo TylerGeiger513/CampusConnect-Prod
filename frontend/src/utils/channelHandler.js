@@ -28,3 +28,22 @@ export const findOrCreateDMChannel = async (targetUserId) => {
     throw error;
   }
 };
+
+export const getChannelsMeta = async () => {
+  const res = await api.get('/channels/meta');
+  return res.data;
+};
+
+export const searchChannels = async (query) => {
+  const res = await api.get(`/channels/search?query=${encodeURIComponent(query)}`);
+  return res.data;
+};
+
+export const createChannel = async (participantIds) => {
+  const res = await api.post('/channels/create', { participantIds });
+  return res.data;
+};
+
+export const markChannelRead = async (channelId) => {
+  await api.post('/channels/markRead', { channelId });
+};

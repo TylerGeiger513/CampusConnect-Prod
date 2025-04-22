@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Param, BadRequestException, ForbiddenException } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Param, BadRequestException, ForbiddenException, Query } from '@nestjs/common';
 import { ChannelsService } from './channels.service';
 import { Logger } from '@nestjs/common';
 import { MessageService } from './message.service';
@@ -116,5 +116,37 @@ export class ChannelsController {
             throw new ForbiddenException('User not authenticated.');
         }
         return this.channelsService.getOrCreateDMChannel(userId, dto.userId);
+    }
+
+    @Get('meta')
+    async getMeta(@CurrentUser() userId: string) {
+        // returns [{ channelId, name, participants, lastMessage, lastTs, unreadCount }, …]
+        return this.channelsService.getChannelsMeta(userId);
+    }
+
+    @Get('search')
+    async search(
+        @Query('query') q: string,
+        @CurrentUser() userId: string,
+    ) {
+        return this.channelsService.searchChannels(userId, q);
+    }
+
+    @Post('create')
+    async createChannel(
+        @Body('participantIds') parts: string[],
+        @CurrentUser() userId: string,
+    ) {
+        // include current user
+        return this.channelsService.createChannel([userId, ...parts]);
+    }
+
+    @Post('markRead')
+    async markRead(
+        @Body('channelId') channelId: string,
+        @CurrentUser() userId: string,
+    ) {
+        await this.channelsService.markRead(channelId, userId);
+        return { success: true };
     }
 }

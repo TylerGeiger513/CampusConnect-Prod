@@ -7,12 +7,16 @@ import ProtectedRoute from './ProtectedRoute';
 import LandingPage from '../components/LandingPage';
 import Dashboard from '../components/dashboard/Dashboard';
 import Profile from '../components/Profile';
+import Friends from '../components/Friends';
+import ChatPage from '../components/chat/ChatPage';
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={
+          <LandingPage />
+        } />
         <Route
           path="/dashboard"
           element={
@@ -29,6 +33,23 @@ const AppRouter = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/friends"
+          element={
+            <ProtectedRoute>
+              <Friends />
+            </ProtectedRoute>
+          }
+        />
+        <Route 
+          path='/chats'
+          element={
+            <ProtectedRoute>
+              <ChatPage />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );

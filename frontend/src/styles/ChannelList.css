@@ -19,4 +19,24 @@
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
   }
-  
+
+.channel-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.new-channel-btn {
+  background: var(--primary-a30);
+  color: var(--color-text);
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.new-channel-btn:hover {
+  background: var(--primary-a40);
+}

@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+export type MessageDocument = IMessage & Document;
+
 /**
  * @interface IMessage
  * @description Represents a message within a channel.
@@ -14,6 +16,7 @@ export interface IMessage {
     edited?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    readBy?: string[];
 }
 
 /**
@@ -36,6 +39,9 @@ export class Message implements IMessage {
 
     @Prop({ default: false })
     edited?: boolean;
+
+    @Prop({ type: [String], default: [] })
+    readBy!: string[];
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

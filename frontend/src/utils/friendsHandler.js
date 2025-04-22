@@ -157,12 +157,13 @@ export const unblockUser = async (target) => {
 };
 
 /**
- * Retrieves friend suggestions.
- * Expects the backend to return an object like { suggestions: [...] }.
+ * Retrieves friend suggestions, optionally filtered by search.
+ * @param {string} [search] - name or username filter.
  */
-export const getFriendSuggestions = async () => {
+export const getFriendSuggestions = async (search) => {
   try {
-    const response = await api.post('/friends/suggestions');
+    const body = search ? { search } : {};
+    const response = await api.post('/friends/suggestions', body);
     return response.data.suggestions;
   } catch (error) {
     console.error('Error getting friend suggestions:', error);

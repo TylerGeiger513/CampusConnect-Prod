@@ -32,7 +32,7 @@ database:
     pvcName: mongo-pvc
     storageSize: 5Gi
     volumeName: mongo-storage
-    mountPath: /data/db_mount
+    mountPath: /data/db
   redis:
     appName: redis
     image: redis:alpine

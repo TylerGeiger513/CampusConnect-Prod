@@ -2,13 +2,18 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ChannelsRepository } from './channels.repository';
 import { IChannel } from './channel.schema';
 import { UsersRepository } from '../users/users.repository';
+import { MessageRepository } from './message.repository';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class ChannelsService {
     private readonly logger = new Logger(ChannelsService.name);
 
-    constructor(private readonly channelsRepository: ChannelsRepository,
-        private readonly usersRepository: UsersRepository
+    constructor(
+        private readonly channelsRepository: ChannelsRepository,
+        private readonly usersRepository: UsersRepository,
+        private readonly messageRepository: MessageRepository,
+        private readonly eventEmitter: EventEmitter2,
     ) { }
 
     /**
@@ -40,24 +45,59 @@ export class ChannelsService {
         });
     }
 
-    // /**
-    //  * Creates a new group channel.
-    //  * @param name - The channel name.
-    //  * @param participants - Array of user IDs.
-    //  * Later this will be implemented as a separate feature.
-    //  */ 
-    // async createGroupChannel(name: string, participants: string[]): Promise<IChannel> {
-    //     return this.channelsRepository.createChannel({
-    //         type: 'GROUP',
-    //         name,
-    //         participants,
-    //     });
-    // }
-
     /**
      * Retrieves a channel by its ID.
      */
     async getChannelById(channelId: string): Promise<IChannel | null> {
         return this.channelsRepository.findChannelById(channelId);
+    }
+
+    async getChannelsMeta(userId: string) {
+        // query channels, lookup last message & unread count per channel
+        const channels = await this.channelsRepository.findChannelsForUser(userId);
+        return Promise.all(channels.map(async ch => {
+            const channelId = ch._id!;  // assert non‑null
+            const lastMsg = await this.messageRepository.findLast(channelId);
+            const unread = await this.messageRepository.countUnread(channelId, userId);
+
+            return {
+                channelId: ch._id,
+                name: ch.name,
+                participants: ch.participants,
+                lastMessage: lastMsg?.content,
+                lastTs: lastMsg?.createdAt,
+                unreadCount: unread,
+            };
+        }));
+    }
+
+    async searchChannels(userId: string, query: string) {
+        const meta = await this.getChannelsMeta(userId);
+        // simple weight-based filter
+        return meta
+            .map(m => {
+                let score = 0;
+                if (m.name?.toLowerCase().includes(query)) score += 100;
+                if (m.participants.some(p => /* lookup username/fullname */ false)) score += 50;
+                if (m.lastMessage?.toLowerCase().includes(query)) score += 10;
+                return { ...m, score };
+            })
+            .filter(m => m.score > 0)
+            .sort((a,b) => b.score - a.score);
+    }
+
+    async createChannel(participantIds: string[]) {
+        return this.channelsRepository.createChannel({
+            name: '', // generate or leave blank
+            type: 'DM',
+            participants: participantIds,
+        });
+    }
+
+    async markRead(channelId: string, userId: string) {
+        // mark all messages as read for this user
+        await this.messageRepository.markRead(channelId, userId);
+        // emit via EventEmitter2
+        this.eventEmitter.emit('channel.read', { channelId, userId });
     }
 }

@@ -1,102 +1,71 @@
 import { useState, useEffect, useRef } from 'react';
-import { getChannelMessages, postMessage, findOrCreateDMChannel } from '../utils/channelHandler';
+import { getChannelMessages, postMessage } from '../utils/channelHandler';
 import { createSocket } from '../utils/api';
 import useUser from './useUser';
 
-const useChannel = () => {
-    const [activeChannel, setActiveChannel] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState('');
-    const { user } = useUser();
-    const socketRef = useRef(null);
+// ← accept activeChannel from outside
+const useChannel = (activeChannel) => {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const { user } = useUser();
+  const socketRef = useRef(null);
 
-    // Initialize socket connection once
-    useEffect(() => {
-        socketRef.current = createSocket();
-        return () => {
-            socketRef.current?.disconnect();
-        };
-    }, []);
+  // init socket once
+  useEffect(() => {
+    socketRef.current = createSocket();
+    return () => socketRef.current?.disconnect();
+  }, []);
 
-    // Join room + listen for live messages
-    useEffect(() => {
-        if (!activeChannel || !socketRef.current) return;
+  // join / leave on activeChannel change
+  useEffect(() => {
+    const socket = socketRef.current;
+    if (!activeChannel || !socket) {
+      setMessages([]);       // clear when no channel
+      return;
+    }
+    const channelId = activeChannel.channelId;             // ← use channelId
+    socket.emit('joinChannel', channelId);
 
-        const socket = socketRef.current;
-        socket.emit('joinChannel', activeChannel._id);
-
-        const handleIncomingMessage = (message) => {
-            if (message.senderId === user._id) return;
-
-            if (message.channelId === activeChannel._id) {
-                setMessages(prev => [...prev, message]);
-            }
-        };
-
-        socket.on('messageReceived', handleIncomingMessage);
-
-        return () => {
-            socket.off('messageReceived', handleIncomingMessage);
-            socket.emit('leaveRoom', activeChannel._id); 
-        };
-    }, [activeChannel]);
-
-    useEffect(() => {
-        const fetchMessages = async () => {
-            if (!activeChannel) {
-                setMessages([]);
-                return;
-            }
-            try {
-                const data = await getChannelMessages(activeChannel._id);
-                setMessages(Array.isArray(data.messages) ? data.messages : []);
-            } catch (error) {
-                console.error('Error fetching channel messages:', error);
-            }
-        };
-        fetchMessages();
-    }, [activeChannel]);
-
-    const sendMessage = async (content) => {
-        if (!activeChannel) return;
-        try {
-            const message = await postMessage(activeChannel._id, content);
-            setMessages((prev) => [...prev, message]);
-            setNewMessage('');
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
+    const handleIncoming = (msg) => {
+      if (msg.channelId === channelId && msg.senderId !== user._id) {
+        setMessages(prev => [...prev, msg]);
+      }
     };
+    socket.on('messageReceived', handleIncoming);
 
-    const toggleFriendChannel = async (friendId) => {
-        const socket = socketRef.current;
-
-        if (activeChannel && activeChannel.friendId === friendId) {
-            if (socket && activeChannel._id) {
-                socket.emit('leaveChannel', activeChannel._id);
-            }
-
-            // Deactivate channel
-            setActiveChannel(null);
-            setMessages([]);
-            return;
-        }
-
-        try {
-            const channel = await findOrCreateDMChannel(friendId);
-
-            if (socket && activeChannel?._id) {
-                socket.emit('leaveChannel', activeChannel._id);
-            }
-
-            // Join new channel
-            setActiveChannel({ ...channel, friendId });
-        } catch (error) {
-            console.error('Error setting DM channel:', error);
-        }
+    return () => {
+      socket.off('messageReceived', handleIncoming);
+      socket.emit('leaveChannel', channelId);
     };
+  }, [activeChannel, user]);
 
-    return { activeChannel, messages, newMessage, setNewMessage, sendMessage, toggleFriendChannel };
+  // fetch history
+  useEffect(() => {
+    if (!activeChannel) return;
+    (async () => {
+      try {
+        const channelId = activeChannel.channelId;          // ← use channelId
+        const { messages: hist = [] } = await getChannelMessages(channelId);
+        setMessages(hist);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [activeChannel]);
+
+  const sendMessage = async (content) => {
+    if (!activeChannel) return;
+    const channelId = activeChannel.channelId;            // ← use channelId
+    console.log('Sending message:', content, 'to channel:', channelId);
+    try {
+      const msg = await postMessage(channelId, content);
+      setMessages(prev => [...prev, msg]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return { messages, newMessage, setNewMessage, sendMessage };
 };
 
 export default useChannel;

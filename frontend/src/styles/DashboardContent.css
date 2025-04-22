@@ -1,8 +1,8 @@
 .dashboard-content {
   background-color: var(--surface-a40);
-  height: 100%;
   box-sizing: border-box;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  flex: 1;            /* let chat or feed fill vertically */
+  overflow: hidden;
 }

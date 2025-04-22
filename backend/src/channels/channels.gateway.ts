@@ -48,6 +48,10 @@ export class ChannelsGateway implements OnGatewayConnection, OnGatewayDisconnect
                 this.logger.log(`Emitted message to channel ${message.channelId}`);
             }
         });
+
+        this.eventEmitter.on('channel.read', ({ channelId, userId }) => {
+            this.server.to(channelId).emit('channelRead', { channelId, userId });
+        });
     }
 
     async handleConnection(client: Socket) {
@@ -116,5 +120,11 @@ export class ChannelsGateway implements OnGatewayConnection, OnGatewayDisconnect
     handleLeaveChannel(client: Socket, channelId: string): void {
         client.leave(channelId);
         this.logger.log(`Client ${client.id} left channel ${channelId}`);
+    }
+
+    @SubscribeMessage('markRead')
+    handleMarkRead(client: Socket, channelId: string) {
+        client.to(channelId).emit('channelRead', { channelId, userId: /* lookup */ '' });
+        return client;
     }
 }
