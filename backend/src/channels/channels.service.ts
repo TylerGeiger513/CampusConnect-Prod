@@ -96,9 +96,9 @@ export class ChannelsService {
         return meta
             .map(m => {
                 let score = 0;
-                if (m.name?.toLowerCase().includes(query)) score += 100;
-                if (m.participants.some(p => /* lookup username/fullname */ false)) score += 50;
-                if (m.lastMessage?.toLowerCase().includes(query)) score += 10;
+                if (m && m.name?.toLowerCase().includes(query)) score += 100;
+                if (m && m.participants.some(p => /* lookup username/fullname */ false)) score += 50;
+                if (m && m.lastMessage?.toLowerCase().includes(query)) score += 10;
                 return { ...m, score };
             })
             .filter(m => m.score > 0)

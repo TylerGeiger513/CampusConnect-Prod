@@ -34,7 +34,9 @@ export default function ChatPage() {
                                     className={ch.channelId === active?.channelId ? 'active' : 'read-' + (ch.unreadCount > 0)}
                                     onClick={() => pick(ch)}
                                 >
-                                    <div className="pfp">{/* initials or img */}</div>
+                                    <div className="pfp">{
+                                        isDM ? ch.dmWith.charAt(0).toUpperCase() : ch.name.charAt(0).toUpperCase()
+                                        }</div>
                                     <div className="info">
                                         <div className="name">{
                                                 ch.isDM ? ch.dmWith : ch.name
@@ -46,6 +48,25 @@ export default function ChatPage() {
                                     </div>
                                     <div className="ts">
                                         {/* format ch.lastTs: Today/yesterday/date */}
+                                        {
+                                            (() => {
+                                                const date = new Date(ch.lastTs);
+                                                const now = new Date();
+                                                const diff = now - date;
+                                                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                                const hours = Math.floor(diff / (1000 * 60 * 60));
+                                                const minutes = Math.floor(diff / (1000 * 60));
+                                                let timeStr = '';
+                                                if (days === 0) {
+                                                    timeStr = hours === 0 ? `${minutes}m` : `${hours}h`;
+                                                } else if (days === 1) {
+                                                    timeStr = 'Yesterday';
+                                                } else {
+                                                    timeStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                                }
+                                                return timeStr;
+                                            })()
+                                        }
                                     </div>
                                     {ch.unreadCount > 0 && <span className="badge">{ch.unreadCount}</span>}
                                 </li>
