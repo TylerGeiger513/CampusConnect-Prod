@@ -6,7 +6,7 @@ export default function ChannelModal({ onClose, onCreate }) {
   const [query, setQ] = useState('');
   const [selected, setSel] = useState(null);
   const list = friends.filter(f =>
-    f.username.includes(query) || f.fullName?.includes(query)
+    f.username?.toUpperCase().includes(query.toUpperCase()) || f.fullName?.toUpperCase().includes(query)
   );
 
   return (
