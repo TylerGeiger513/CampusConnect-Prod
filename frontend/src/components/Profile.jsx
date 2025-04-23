@@ -95,13 +95,6 @@ const Profile = () => {
                   onUpdate={handleInfoUpdate} // Pass the API update handler
                 />
               </div>
-              <div className="friends-list-wrapper">
-                {/* Assuming FriendsList doesn't need profile data directly */}
-                <FriendsList />
-              </div>
-              <div className="friends-suggestions-wrapper">
-                <FriendsSuggestionsComponent />
-              </div>
             </div>
           </div>
         </div>
