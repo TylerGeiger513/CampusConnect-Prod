@@ -36,7 +36,9 @@ export default function ChatPage() {
                                 >
                                     <div className="pfp">{/* initials or img */}</div>
                                     <div className="info">
-                                        <div className="name">{ch.name}</div>
+                                        <div className="name">{
+                                                ch.isDM ? ch.dmWith : ch.name
+                                            }</div>
                                         <div className="preview">
                                             {/* highlight matching text */}
                                             {ch.lastMessage}

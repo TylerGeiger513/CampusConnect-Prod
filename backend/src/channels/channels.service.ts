@@ -59,15 +59,34 @@ export class ChannelsService {
             const channelId = ch._id!;  // assert non‑null
             const lastMsg = await this.messageRepository.findLast(channelId);
             const unread = await this.messageRepository.countUnread(channelId, userId);
-
-            return {
-                channelId: ch._id,
-                name: ch.name,
-                participants: ch.participants,
-                lastMessage: lastMsg?.content,
-                lastTs: lastMsg?.createdAt,
-                unreadCount: unread,
-            };
+            // if dm then pass dmwith as other user name
+            if (ch.type === 'DM') {
+                const otherUser = ch.participants.find(p => p !== userId);
+                if (otherUser) {
+                    const user = await this.usersRepository.findByIdentifier({ id: otherUser });
+                    return {
+                        channelId: ch._id,
+                        name: ch.name,
+                        participants: ch.participants,
+                        lastMessage: lastMsg?.content,
+                        lastTs: lastMsg?.createdAt,
+                        unreadCount: unread,
+                        isDM: true,
+                        dmWith: user?.username
+                    };
+                }
+            } else {
+                return {
+                    channelId: ch._id,
+                    name: ch.name,
+                    participants: ch.participants,
+                    lastMessage: lastMsg?.content,
+                    lastTs: lastMsg?.createdAt,
+                    unreadCount: unread,
+                    isDM: false,
+                }
+            }
+           
         }));
     }
 
