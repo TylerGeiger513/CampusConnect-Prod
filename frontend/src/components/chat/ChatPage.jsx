@@ -35,7 +35,7 @@ export default function ChatPage() {
                                     onClick={() => pick(ch)}
                                 >
                                     <div className="pfp">{
-                                        isDM ? ch.dmWith.charAt(0).toUpperCase() : ch.name.charAt(0).toUpperCase()
+                                        ch.isDM ? ch.dmWith.charAt(0).toUpperCase() : ch.name.charAt(0).toUpperCase()
                                         }</div>
                                     <div className="info">
                                         <div className="name">{
