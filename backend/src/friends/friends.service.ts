@@ -176,7 +176,8 @@ export class FriendsService {
         const friendIds = user.friends || [];
         const friends = await Promise.all(friendIds.map(async (friendId) => {
             const friend = await this.getUser(friendId);
-            return { id: friend._id as string, username: friend.username };
+            const campus = typeof friend.campus === 'object' ? (friend.campus as any).name : friend.campus;
+            return { id: friend._id as string, username: friend.username, campus: campus };
         }));
         return friends;
     }
@@ -189,7 +190,8 @@ export class FriendsService {
         const requestIds = user.friendRequests || [];
         const requests = await Promise.all(requestIds.map(async (id) => {
             const requester = await this.getUser(id);
-            return { id: requester._id as string, username: requester.username };
+            const campus = typeof requester.campus === 'object' ? (requester.campus as any).name : requester.campus;
+            return { id: requester._id as string, username: requester.username, campus: campus };
         }));
         return requests;
     }
@@ -202,7 +204,8 @@ export class FriendsService {
         const sentIds = user.sentFriendRequests || [];
         const sentRequests = await Promise.all(sentIds.map(async (id) => {
             const target = await this.getUser(id);
-            return { id: target._id as string, username: target.username };
+            const campus = typeof target.campus === 'object' ? (target.campus as any).name : target.campus;
+            return { id: target._id as string, username: target.username, campus: campus };
         }));
         return sentRequests;
     }
@@ -215,7 +218,8 @@ export class FriendsService {
         const blockedIds = user.blockedUsers || [];
         const blockedUsers = await Promise.all(blockedIds.map(async (id) => {
             const blocked = await this.getUser(id);
-            return { id: blocked._id as string, username: blocked.username };
+            const campus = typeof blocked.campus === 'object' ? (blocked.campus as any).name : blocked.campus;
+            return { id: blocked._id as string, username: blocked.username, campus: campus };
         }));
         return blockedUsers;
     }

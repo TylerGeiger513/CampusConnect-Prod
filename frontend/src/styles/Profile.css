@@ -8,7 +8,13 @@
     font-family: Arial, sans-serif;
     flex: auto;
   }
+
+  .profile-page {
+    width: 100%;
+    height: 100%;
+  }
   
+
   .side-nav {
     height: 100%;
     display: flex;

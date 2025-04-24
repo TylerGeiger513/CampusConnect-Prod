@@ -1,0 +1,139 @@
+.friend-list-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-top: 1px solid var(--surface-a30); /* Separator */
+  cursor: default; /* Default cursor, override for friends */
+  transition: background-color 0.2s;
+}
+
+.friend-list-item:hover {
+  background-color: var(--surface-a30);
+  border-radius: 4px;
+}
+
+.friend-list-item[type="friend"]:hover {
+   cursor: pointer; /* Pointer only for clickable friends */
+}
+
+
+.friend-list-pfp {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ccc; /* Placeholder */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.friend-list-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Prevent long names/campus from breaking layout */
+}
+
+.friend-list-name {
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-list-campus {
+  font-size: 0.8rem;
+  color: var(--color-text-alt);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-list-campus svg {
+  width: 12px;
+  height: 12px;
+  fill: var(--color-text-alt);
+}
+
+.friend-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.action-btn {
+  background: var(--surface-a50);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-alt);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.action-btn:hover {
+  background: var(--surface-a40);
+  color: var(--color-text);
+}
+
+.action-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* Action Menu */
+.action-menu-container {
+  position: relative;
+}
+
+.action-menu {
+  position: absolute;
+  right: 0;
+  top: 35px; /* Position below the button */
+  background-color: var(--surface-a10); /* Darker background for menu */
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  padding: 4px 0;
+  z-index: 10;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-menu button {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.action-menu button:hover {
+  background-color: var(--primary-a50);
+}
+
+/* Backdrop to close menu when clicking outside */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 5;
+}

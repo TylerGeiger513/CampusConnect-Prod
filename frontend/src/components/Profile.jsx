@@ -67,7 +67,7 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="profile-page">
       <Header />
       <div className="profile-page-container">
         <div className="sidenav-column">

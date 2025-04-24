@@ -1,0 +1,82 @@
+.friends-management-container {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-a40); /* Match page background or desired container bg */
+  color: var(--color-text);
+  border-radius: 8px;
+  overflow: hidden; /* Ensures children conform to border radius */
+  flex: 1; /* Allow it to take available space */
+  margin-top: 16px; /* Spacing from potential elements above */
+  box-sizing: border-box;
+  min-height: 300px; /* Example minimum height */
+}
+
+.friends-management-tabs {
+  display: flex;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--surface-a30);
+  gap: 8px;
+}
+
+.tab-button {
+  background: none;
+  border: none;
+  color: var(--color-text-alt);
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-button:hover {
+  background-color: var(--surface-a30);
+  color: var(--color-text);
+}
+
+.tab-button.active {
+  background-color: var(--surface-a50); /* Slightly different background for active */
+  color: var(--color-text);
+}
+
+.add-friend-main-btn {
+  margin-left: auto; /* Pushes button to the right */
+  background-color: var(--primary-a50);
+  color: #fff;
+  /* Add other button styles */
+}
+
+.friends-management-list {
+  flex-grow: 1;
+  overflow-y: auto; /* Allow scrolling if list is long */
+  padding: 0; /* Remove padding if list items handle it */
+}
+
+.friends-management-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.loading-message,
+.empty-message {
+  text-align: center;
+  padding: 20px;
+  color: var(--color-text-alt);
+  font-style: italic;
+}
+
+.pending-header {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-alt);
+  text-transform: uppercase;
+  padding: 16px 16px 8px 16px;
+  margin: 0;
+  border-top: 1px solid var(--surface-a30); /* Separator for sections */
+}
+
+.pending-header:first-of-type {
+   border-top: none; /* No top border for the very first header */
+}

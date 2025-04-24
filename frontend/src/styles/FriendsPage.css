@@ -2,12 +2,40 @@
   height: 100vh;
   background-color: var(--surface-a40);
   color: var(--color-text);
+  /* Removed display: flex; if dashboard-container handles it */
 }
+
+
 
 .friends-content {
   flex: 1;
   padding: 24px;
-  display: grid;
-  gap: 16px;
+  display: grid; /* Changed to grid */
+  /* Example: 2 columns, main list takes more space */
+  grid-template-columns: 2fr 1fr;
+  gap: 24px; /* Increased gap */
   box-sizing: border-box;
+  overflow-y: auto; /* Allow content area to scroll if needed */
+}
+
+/* Ensure FriendsManagement and Suggestions take up grid areas */
+.friends-management-container {
+  grid-column: 1 / 2; /* Takes the first column */
+  margin-top: 0; /* Remove margin if handled by grid gap */
+}
+
+.suggestions-container {
+  grid-column: 2 / 3; /* Takes the second column */
+   /* Add any specific styling for suggestions container in this layout */
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 900px) {
+  .friends-content {
+    grid-template-columns: 1fr; /* Stack columns on smaller screens */
+  }
+  .friends-management-container,
+  .suggestions-container {
+    grid-column: 1 / -1; /* Both take full width */
+  }
 }
