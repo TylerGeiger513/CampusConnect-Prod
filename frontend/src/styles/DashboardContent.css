@@ -2,7 +2,9 @@
   background-color: var(--surface-a40);
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  flex: 1;            /* let chat or feed fill vertically */
+  flex: 1;
   overflow: hidden;
 }
