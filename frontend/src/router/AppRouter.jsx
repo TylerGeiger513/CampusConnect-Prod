@@ -9,6 +9,7 @@ import Dashboard from '../components/dashboard/Dashboard';
 import Profile from '../components/Profile';
 import Friends from '../components/Friends';
 import ChatPage from '../components/chat/ChatPage';
+import Settings from '../components/SettingsPage';
 
 const AppRouter = () => {
   return (
@@ -47,6 +48,20 @@ const AppRouter = () => {
             <ProtectedRoute>
               <ChatPage />
             </ProtectedRoute>
+          }
+        />
+        <Route 
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <div>404 Not Found</div>
           }
         />
 

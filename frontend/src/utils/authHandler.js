@@ -30,6 +30,17 @@ export const login = async (credentials) => {
     }
 };
 
+export const logout = async () => {
+    try {
+        const response = await api.post('/auth/logout');
+        // clear cookies 
+        return response.data;
+    } catch (error) {
+        console.error('Error logging out:', error);
+        throw error;
+    }
+}
+
 export const signup = async (userInfo) => {
     try {
         const response = await api.post('/auth/signup', userInfo);
