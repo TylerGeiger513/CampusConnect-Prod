@@ -98,4 +98,16 @@ export class MessageRepository {
             )
             .exec();
     }
+
+    /** Searches messages in a channel for a given query string */
+    async queryMessages(channelId: string, query: string, limit: number): Promise<IMessage[]> {
+        const regex = new RegExp(query, 'i'); // Case-insensitive search
+        const messages = await this.messageModel
+            .find({ channelId, content: regex })
+            .sort({ createdAt: -1 })
+            .limit(limit)
+            .lean()
+            .exec();
+        return messages.map(m => ({ ...m, _id: m._id.toString() }));
+    }
 }

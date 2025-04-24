@@ -98,6 +98,7 @@ export class ChannelsService {
                 let score = 0;
                 if (m && m.name?.toLowerCase().includes(query)) score += 100;
                 if (m && m.participants.some(p => /* lookup username/fullname */ false)) score += 50;
+                // lastly match the query for any message in the channel
                 if (m && m.lastMessage?.toLowerCase().includes(query)) score += 10;
                 return { ...m, score };
             })

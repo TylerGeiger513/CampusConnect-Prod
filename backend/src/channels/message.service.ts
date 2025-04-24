@@ -58,5 +58,15 @@ export class MessageService {
         }
         await this.messageRepository.deleteMessage(messageId, userId);
     }
+
+    async queryMessages(channelId: string, query: string, limit: number): Promise<IMessage[]> {
+        if (!channelId) {
+            throw new Error('Channel identifier is required.');
+        }
+        if (!query) {
+            throw new Error('Query string is required.');
+        }
+        return this.messageRepository.queryMessages(channelId, query, limit);
+    }
     
 }
